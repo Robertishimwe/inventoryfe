@@ -1,6 +1,7 @@
 import { atomWithStorage } from 'jotai/utils';
 
 export const tokenAtom = atomWithStorage('token', null);
+export const loggedinUserAtom = atomWithStorage('loggedinUser', null);
 export const searchSesultAtom = atomWithStorage('searchSesult', null);
 
 

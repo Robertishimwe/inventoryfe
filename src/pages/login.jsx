@@ -1,5 +1,37 @@
+import { useMutation } from '@tanstack/react-query';
+import { useAtom } from 'jotai';
+import { loggedinUserAtom } from "../utils/atoms";
+import api from "../utils/api";
 
 export default function Login() {
+
+    const emailRef = useRef(null);
+    const passwordRef = useRef(null);
+
+    const [loggedinUser, setLoggedinUser] = useAtom(loggedinUserAtom);
+
+    const { mutate, isPending, error } = useMutation({
+        mutationFn: (loginCredentials) => {
+          return api.post('/api/auth/login', loginCredentials);
+        },
+        onSuccess: (data) => {
+          console.log('Login successful:', data);
+          setLoggedinUser(data?.data?.token);
+    
+        },
+        onError: (error) => {
+          console.log('Login error:', error);
+        },
+      });
+
+
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        mutate({ email: emailRef.current.value, password: passwordRef.current.value });
+      };
+
+
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="max-w-md w-full space-y-8 p-4">
@@ -7,7 +39,7 @@ export default function Login() {
             <h2 className="text-3xl font-bold">Inventory Ms Login</h2>
             <p className="text-gray-500 dark:text-gray-400">Enter your credentials to access the system.</p>
           </div>
-          <form className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <label className="block text-sm font-medium" for="username">
                 Username
@@ -18,6 +50,7 @@ export default function Login() {
                 placeholder="Enter your username"
                 required
                 type="text"
+                ref={emailRef}
               />
             </div>
             <div className="space-y-2">
@@ -30,14 +63,18 @@ export default function Login() {
                 placeholder="Enter your password"
                 required
                 type="password"
+                ref={passwordRef} 
+                
               />
             </div>
             <button
               className="w-full bg-gray-900 text-white rounded-md py-2 transition-colors hover:bg-gray-800 focus:outline-none focus:ring focus:ring-gray-300"
               type="submit"
+              disabled={isPending}
             >
-              Login
+              {isPending ? 'Loading...' : 'Login'}
             </button>
+            {error && <p className="text-red-500 text-center">{error?.response?.data?.message}</p>}
           </form>
         </div>
       </div>
