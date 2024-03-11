@@ -1,4 +1,6 @@
+import { useRef } from "react";
 import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from "react-router-dom"
 import { useAtom } from 'jotai';
 import { loggedinUserAtom } from "../utils/atoms";
 import api from "../utils/api";
@@ -7,6 +9,7 @@ export default function Login() {
 
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
+    const navigate = useNavigate();
 
     const [loggedinUser, setLoggedinUser] = useAtom(loggedinUserAtom);
 
@@ -16,7 +19,8 @@ export default function Login() {
         },
         onSuccess: (data) => {
           console.log('Login successful:', data);
-          setLoggedinUser(data?.data?.token);
+          setLoggedinUser(data?.data);
+          navigate('/dashboard')
     
         },
         onError: (error) => {
@@ -28,6 +32,7 @@ export default function Login() {
 
       const handleSubmit = (e) => {
         e.preventDefault();
+        console.log(emailRef.current.value, passwordRef.current.value)
         mutate({ email: emailRef.current.value, password: passwordRef.current.value });
       };
 
