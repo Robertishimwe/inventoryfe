@@ -1,11 +1,56 @@
 import React from 'react'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem, DropdownMenuContent, DropdownMenu } from "@/components/ui/dropdown-menu"
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card"
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
 
+import { useAtom } from 'jotai';
+import { unitsAtom } from "../../utils/atoms";
+
+import api from "../../utils/api";
+
 function DataGrid() {
+
+  const [units, setUnits] = useAtom(unitsAtom);
+
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ['units'],
+    queryFn: async () => {
+      const response = await api.get('/api/units/getAll');
+      return response?.data?.units;
+    }
+  })
+
+  if (isLoading) {
+    return <p className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">Loading...</p>
+  }
+
+  if (isError) {
+    return <p>Error: {error.message}</p>
+  }
+
+  // const { mutate } = useMutation({
+  //   mutationFn: (unit) => {
+  //     return api.post('/api/units/add', unit);
+
+  //   }
+  // })
+
+
+
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   mutate({ name: e.target.name.value });
+  //   e.target.reset();
+  // }
+
+if (data) {
+  setUnits(data);
+}
+
+console.log( units);
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
     <Card>
@@ -26,15 +71,20 @@ function DataGrid() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow>
-                <TableCell>1</TableCell>
-                <TableCell>Kg</TableCell>
-                <TableCell>2023-12-02T18:03:06.000Z</TableCell>
-                <TableCell>
+                        
+              {
+              units && units.map((unit) => (
+                <TableRow>
+                  <TableCell>{unit.id}</TableCell>
+                  <TableCell>{unit.unit_name}</TableCell> 
+                  <TableCell>{new Date(unit.updatedAt).toLocaleString()}</TableCell>
+                  <TableCell>
                   <Button variant="ghost">Edit</Button>
                   <Button variant="ghost">Delete</Button>
                 </TableCell>
-              </TableRow>
+                </TableRow> 
+              ))}
+             
             </TableBody>
           </Table>
         </CardContent>

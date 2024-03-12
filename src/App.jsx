@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import DashboardLayout from "./layouts/dashboard";
 import UserManagement from "./components/UserManagement";
 import Login from "./pages/login";
@@ -11,14 +11,14 @@ import SupplierDataGrid from "./components/supplierManagement/dataGrid";
 import TransactionDataGrid from "./components/transactionManagement/dataGrid";
 
 import PrivateRoutes from "./protection/PrivateRoutes";
+import BounceRoute from "./protection/bounceRoute";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<DashboardLayout />}>
-        <Route index element={<b>Home</b>} />
+      <Route index element={<Navigate to="/dashboard" replace />} />
       </Route>
-      <Route path="/login" element={<Login />} />
       <Route element={<PrivateRoutes />}>
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<b>Home</b>} />
@@ -30,6 +30,9 @@ function App() {
           <Route path="units" element={<UnitDataGrid />} />
           <Route path="suppliers" element={<SupplierDataGrid />} />
           <Route path="transactions" element={<TransactionDataGrid />} />
+        </Route>
+        <Route element={ <BounceRoute /> }>
+          <Route path="/login" element={<Login />} />
         </Route>
       </Route>
     </Routes>

@@ -1,10 +1,11 @@
 import { atomWithStorage } from 'jotai/utils';
 
-export const tokenAtom = atomWithStorage('token', null);
 export const loggedinUserAtom = atomWithStorage('loggedinUser', null);
-export const searchSesultAtom = atomWithStorage('searchSesult', null);
-
-
-// const userAtom = atom({});
-
-// export { userAtom };
+export const unitsAtom = atomWithStorage('units', []);
+export const categoriesAtom = atomWithStorage('categories', []);
+export const productsAtom = atomWithStorage('products', []);
+export const inventoryAtom = atomWithStorage('inventory', []);
+export const suppliersAtom = atomWithStorage('suppliers', []);
+export const transactionAtom = atomWithStorage('transaction', []);
+export const cartAtom = atomWithStorage('cart', []);
+export const cartItemAtom = atomWithStorage('cartItem', []);
