@@ -31,10 +31,10 @@ function App() {
           <Route path="suppliers" element={<SupplierDataGrid />} />
           <Route path="transactions" element={<TransactionDataGrid />} />
         </Route>
-        <Route element={ <BounceRoute /> }>
+      </Route>
+      <Route element={ <BounceRoute /> }>
           <Route path="/login" element={<Login />} />
         </Route>
-      </Route>
     </Routes>
   );
 }
