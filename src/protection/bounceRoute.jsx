@@ -4,7 +4,7 @@ import { loggedinUserAtom } from "../utils/atoms";
 
 const BounceRoute=()=> {
     const loggedinUser = useAtomValue(loggedinUserAtom);
-    return (loggedinUser?.user ?  <Navigate to="/login" /> : <Outlet />) 
+    return (loggedinUser?.user ?  <Navigate to="/dashboard" /> : <Outlet />) 
 }
 
 export default BounceRoute;
