@@ -7,7 +7,20 @@ import { Label } from "@/components/ui/label"
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
 import { Card } from "@/components/ui/card"
 
+import { useAtomValue, useAtom } from 'jotai'
+import { cartAtom, productsAtom } from "../../utils/atoms"
+
+import api from "../../utils/api";
+
 function Cart() {
+
+  const cart = useAtomValue(cartAtom)
+
+  const totalPrice = cart.reduce((acc, item) => {
+    return acc + Number(item.price) * item.quantity;
+  }, 0);
+
+
   return (
     <>
       <div>
@@ -22,26 +35,24 @@ function Cart() {
             <TableHead>Extended Price</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
-          <TableRow>
-            <TableCell>Product A</TableCell>
-            <TableCell>2</TableCell>
-            <TableCell>25.00 FRW</TableCell>
-            <TableCell>50.00 FRW</TableCell>
+        <TableBody>{
+          cart.length > 0 ? cart.map((item, index) => (
+            
+          
+          <TableRow key={index}>
+            <TableCell>{item.product}</TableCell>
+            <TableCell>{item.quantity}</TableCell>
+            <TableCell>{item.price}</TableCell>
+            <TableCell>{Number(item.price) * item.quantity} FRW</TableCell>
           </TableRow>
-          <TableRow>
-            <TableCell>Product B</TableCell>
-            <TableCell>1</TableCell>
-            <TableCell>30.00 FRW</TableCell>
-            <TableCell>30.00 FRW</TableCell>
-          </TableRow>
+          )) : <p className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">Cart is empty</p>}
         </TableBody>
       </Table>
       <div className="ml-4">
         ------------
         <br/>
         <Label className="text-base">Total Price</Label>
-        <div className="text-2xl font-bold">80.00 FRW</div>
+        <div className="text-2xl font-bold">{totalPrice} FRW</div>
       </div>
       <div className="flex justify-end mb-6 gap-4 px-8">
         <Button>Confirm Sell</Button>

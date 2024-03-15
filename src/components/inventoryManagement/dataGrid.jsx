@@ -20,7 +20,7 @@ function DataGrid() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Product ID</TableHead>
+                <TableHead>ID</TableHead>
                 <TableHead>Product Name</TableHead>
                 <TableHead>Category</TableHead>
                 <TableHead>Price</TableHead>
