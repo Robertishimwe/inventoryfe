@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useMutation } from "@tanstack/react-query";
+import toast from 'react-hot-toast';
 import {
   DropdownMenuTrigger,
   DropdownMenuLabel,
@@ -22,9 +24,10 @@ import {
 import { Card } from "@/components/ui/card";
 
 import { useAtomValue, useAtom } from "jotai";
-import { cartAtom, productsAtom } from "../../utils/atoms";
+import { cartAtom } from "../../utils/atoms";
 
 import api from "../../utils/api";
+import transformCartData from "../../utils/posDataFormat";
 
 function Cart() {
   const cart = useAtomValue(cartAtom);
@@ -32,6 +35,32 @@ function Cart() {
   const totalPrice = cart.reduce((acc, item) => {
     return acc + Number(item.price) * item.quantity;
   }, 0);
+
+  const transformedCartData = transformCartData(cart);
+
+  const { mutate, isPending, error } = useMutation({
+    mutationFn: (cartData) => {
+      return api.patch("/api/stock/dedact", cartData);
+    },
+    onSuccess: (data) => {
+      console.log("Sale was successful:", data);
+    },
+    onError: (error) => {
+      console.log("error while checkingout:", error);
+    },
+  });
+
+  console.log("transformedCartData", transformedCartData);
+
+  const handleConfirmSell = () => {
+    mutate(transformedCartData);
+  };
+
+  toast.promise(handleConfirmSell, {
+    loading: 'Loading',
+    success: 'Got the data',
+    error: 'Error when fetching',
+  });
 
   return (
     <>
@@ -71,7 +100,9 @@ function Cart() {
         <div className="text-2xl font-bold">{totalPrice} FRW</div>
       </div>
       <div className="flex justify-end mb-6 gap-4 px-8">
-        <Button>Confirm Sell</Button>
+        <Button onClick={handleConfirmSell} disabled={isPending}>
+          {isPending ? "Loading..." : "Confirm Sell"}
+        </Button>
       </div>
     </>
   );
