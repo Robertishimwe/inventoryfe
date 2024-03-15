@@ -20,7 +20,9 @@ export default function Login() {
         onSuccess: (data) => {
           console.log('Login successful:', data);
           setLoggedinUser(data?.data);
-          navigate('/dashboard')
+          window.location.replace("/dashboard");
+          // navigate('/dashboard', { replace: true, state: { refresh: true } });
+          // navigate('/dashboard')
     
         },
         onError: (error) => {

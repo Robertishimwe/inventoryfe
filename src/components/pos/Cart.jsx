@@ -30,7 +30,8 @@ import api from "../../utils/api";
 import transformCartData from "../../utils/posDataFormat";
 
 function Cart() {
-  const cart = useAtomValue(cartAtom);
+  // const cart = useAtomValue(cartAtom);
+  const [cart, setCart] = useAtom(cartAtom);
 
   const totalPrice = cart.reduce((acc, item) => {
     return acc + Number(item.price) * item.quantity;
@@ -43,24 +44,22 @@ function Cart() {
       return api.patch("/api/stock/dedact", cartData);
     },
     onSuccess: (data) => {
-      console.log("Sale was successful:", data);
+      toast.success("Operation was successful", {
+        duration: 7000,
+        position: 'top-center'        
+      });
+      setCart([]);
     },
     onError: (error) => {
-      console.log("error while checkingout:", error);
+      toast.error(`${error?.response?.data?.error}`, {
+        duration: 9000,
+        position: 'top-center'});
     },
   });
-
-  console.log("transformedCartData", transformedCartData);
 
   const handleConfirmSell = () => {
     mutate(transformedCartData);
   };
-
-  toast.promise(handleConfirmSell, {
-    loading: 'Loading',
-    success: 'Got the data',
-    error: 'Error when fetching',
-  });
 
   return (
     <>

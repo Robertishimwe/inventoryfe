@@ -71,7 +71,7 @@ function InputForm() {
       quantityRef.current.value = "";
     }
   };
-
+  console.log(">>>>>>>products", products)
   console.log(">>>>>>>", cart)
 
   return (
