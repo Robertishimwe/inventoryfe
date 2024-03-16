@@ -1,7 +1,9 @@
 import React from 'react'
+import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useNavigate } from "react-router-dom"
 import { DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem, DropdownMenuContent, DropdownMenu } from "@/components/ui/dropdown-menu"
 import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card"
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
@@ -14,6 +16,7 @@ import api from "../../utils/api";
 function DataGrid() {
 
  const [products, setProducts] = useAtom(productsAtom);
+ const navigate = useNavigate();
 
  const { isLoading, isError, data, error } = useQuery({
   queryKey: ['products'],
@@ -44,7 +47,7 @@ console.log(products);
       <Card>
         <CardHeader className="pb-4">
           <CardTitle>Product Management</CardTitle>
-          <Button className="ml-auto" size="sm">
+          <Button className="ml-auto" size="sm" onClick={()=>  navigate("/dashboard/products/addNew")}>
             Add New Product
           </Button>
         </CardHeader>

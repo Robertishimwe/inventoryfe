@@ -9,6 +9,7 @@ import UnitDataGrid from "./components/unitManagement/dataGrid";
 import InventoryDataGrid from "./components/inventoryManagement/dataGrid";
 import SupplierDataGrid from "./components/supplierManagement/dataGrid";
 import TransactionDataGrid from "./components/transactionManagement/dataGrid";
+import NewProduct from "./components/productManagement/addNewProduct"
 
 import PrivateRoutes from "./protection/PrivateRoutes";
 import BounceRoute from "./protection/bounceRoute";
@@ -25,6 +26,7 @@ function App() {
           <Route path="users" element={<UserManagement />} />
           <Route path="pos" element={<Pos />} />
           <Route path="products" element={<DataGrid />} />
+          <Route path="products/addNew" element={<NewProduct />} />
           <Route path="inventory" element={<InventoryDataGrid />} />
           <Route path="categories" element={<CategoryDataGrid />} />
           <Route path="units" element={<UnitDataGrid />} />
