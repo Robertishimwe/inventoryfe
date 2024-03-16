@@ -1,9 +1,8 @@
 import React from 'react'
-import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate } from "react-router-dom"
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem, DropdownMenuContent, DropdownMenu } from "@/components/ui/dropdown-menu"
 import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card"
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
@@ -24,7 +23,7 @@ function DataGrid() {
     const response = await api.get('/api/product/getAll');
     return response?.data;
   }
-})
+ })
 
 
 if (isLoading) {
@@ -66,7 +65,7 @@ console.log(products);
             </TableHeader>
             <TableBody>{
               products && products.map((product) => (
-              <TableRow>
+              <TableRow key={product.id}>
                 <TableCell>{product.product_name}</TableCell>
                 <TableCell>{product.description}</TableCell>
                 <TableCell>{product?.productCategory?.name}</TableCell>
