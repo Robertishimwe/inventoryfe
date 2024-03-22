@@ -97,49 +97,45 @@ const gridDiv = document.querySelector('#myGrid');
 
   const [columnDefs, setColumnDefs] = useState([
     {
-      field: 'make',
+      field: 'ID',
       checkboxSelection: true,
       editable: true,
       cellEditor: 'agSelectCellEditor',
       cellEditorParams: {
         values: [
           'Tesla',
-          'Ford',
-          'Toyota',
-          'Mercedes',
-          'Fiat',
-          'Nissan',
-          'Vauxhall',
-          'Volvo',
-          'Jaguar',
+          'Ford'
         ],
       },
     },
-    { field: 'model' },
-    { field: 'price', filter: 'agNumberColumnFilter' },
-    { field: 'electric' },
-    {
-      field: 'month',
-      comparator: (valueA, valueB) => {
-        const months = [
-          'January',
-          'February',
-          'March',
-          'April',
-          'May',
-          'June',
-          'July',
-          'August',
-          'September',
-          'October',
-          'November',
-          'December',
-        ];
-        const idxA = months.indexOf(valueA);
-        const idxB = months.indexOf(valueB);
-        return idxA - idxB;
-      },
-    },
+    { field: 'Product' },
+    { field: 'Price', filter: 'agNumberColumnFilter' },
+    { field: 'Quantity', filter: 'agNumberColumnFilter' },
+    { field: 'Transaction Type' },
+    { field: 'Done By' },
+    { field: 'Transaction Time' },
+    // {
+    //   field: 'Transaction Type',
+    //   comparator: (valueA, valueB) => {
+    //     const months = [
+    //       'January',
+    //       'February',
+    //       'March',
+    //       'April',
+    //       'May',
+    //       'June',
+    //       'July',
+    //       'August',
+    //       'September',
+    //       'October',
+    //       'November',
+    //       'December',
+    //     ];
+    //     const idxA = months.indexOf(valueA);
+    //     const idxB = months.indexOf(valueB);
+    //     return idxA - idxB;
+    //   },
+    // },
   ]);
 
   const defaultColDef = useMemo(() => {
