@@ -9,7 +9,9 @@ import UnitDataGrid from "./components/unitManagement/dataGrid";
 import InventoryDataGrid from "./components/inventoryManagement/dataGrid";
 import SupplierDataGrid from "./components/supplierManagement/dataGrid";
 import TransactionDataGrid from "./components/transactionManagement/dataGrid";
-import NewProduct from "./components/productManagement/addNewProduct"
+import NewProduct from "./components/productManagement/addNewProduct";
+import NewUnit from "./components/unitManagement/addNewUnit";
+import NewCategory from "./components/categoryManagement/addNewCategory";
 
 import PrivateRoutes from "./protection/PrivateRoutes";
 import BounceRoute from "./protection/bounceRoute";
@@ -30,9 +32,9 @@ function App() {
           <Route path="inventory" element={<InventoryDataGrid />} />
           <Route path="inventory/addNew" element={<NewProduct />} />
           <Route path="categories" element={<CategoryDataGrid />} />
-          <Route path="categories/addNew" element={<NewProduct />} />
+          <Route path="categories/addNew" element={<NewCategory />} />
           <Route path="units" element={<UnitDataGrid />} />
-          <Route path="units/addNew" element={<NewProduct />} />
+          <Route path="units/addNew" element={<NewUnit />} />
           <Route path="suppliers" element={<SupplierDataGrid />} />
           <Route path="suppliers/addNew" element={<NewProduct />} />
           <Route path="transactions" element={<TransactionDataGrid />} />
