@@ -2,169 +2,87 @@
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
 import { AgGridReact } from 'ag-grid-react';
-import React, { StrictMode, useMemo, useState } from 'react';
+import React, { StrictMode, useMemo, useState, useEffect } from 'react';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { createRoot } from 'react-dom/client';
+
+import { useAtom } from 'jotai';
+import { transactionAtom } from "../../utils/atoms";
+import api from "../../utils/api";
 
 const gridDiv = document.querySelector('#myGrid');
 
- const GridExample = () => {
-  const [rowData, setRowData] = useState([
-    {
-      make: 'Tesla',
-      model: 'Model Y',
-      price: 64950,
-      electric: true,
-      month: 'June',
-    },
-    {
-      make: 'Ford',
-      model: 'F-Series',
-      price: 33850,
-      electric: false,
-      month: 'October',
-    },
-    {
-      make: 'Toyota',
-      model: 'Corolla',
-      price: 29600,
-      electric: false,
-      month: 'August',
-    },
-    {
-      make: 'Mercedes',
-      model: 'EQA',
-      price: 48890,
-      electric: true,
-      month: 'February',
-    },
-    {
-      make: 'Fiat',
-      model: '500',
-      price: 15774,
-      electric: false,
-      month: 'January',
-    },
-    {
-      make: 'Nissan',
-      model: 'Juke',
-      price: 20675,
-      electric: false,
-      month: 'March',
-    },
-    {
-      make: 'Vauxhall',
-      model: 'Corsa',
-      price: 18460,
-      electric: false,
-      month: 'July',
-    },
-    {
-      make: 'Volvo',
-      model: 'EX30',
-      price: 33795,
-      electric: true,
-      month: 'September',
-    },
-    {
-      make: 'Mercedes',
-      model: 'Maybach',
-      price: 175720,
-      electric: false,
-      month: 'December',
-    },
-    {
-      make: 'Vauxhall',
-      model: 'Astra',
-      price: 25795,
-      electric: false,
-      month: 'April',
-    },
-    {
-      make: 'Fiat',
-      model: 'Panda',
-      price: 13724,
-      electric: false,
-      month: 'November',
-    },
-    {
-      make: 'Jaguar',
-      model: 'I-PACE',
-      price: 69425,
-      electric: true,
-      month: 'May',
-    },
-  ]);
+const GridExample = () => {
+  const [transactions, setTransactions] = useAtom(transactionAtom);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState(null);
 
-  const [columnDefs, setColumnDefs] = useState([
-    {
-      field: 'ID',
-      checkboxSelection: true,
-      editable: true,
-      cellEditor: 'agSelectCellEditor',
-      cellEditorParams: {
-        values: [
-          'Tesla',
-          'Ford'
-        ],
-      },
-    },
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await api.get("/api/transaction/getAll");
+        const transformedData = transformData(response.data.transactions);
+        setTransactions(transformedData);
+        setIsLoading(false);
+      } catch (error) {
+        setIsError(true);
+        setError(error);
+      }
+    };
+
+    fetchData();
+  }, [setTransactions]);
+
+  function transformData(data) {
+    return data.map(item => ({
+      ID: item.id,
+      Product: item.product?.product_name,
+      Price: item.product?.price,
+      Quantity: item.quantity_sold,
+      Transaction_Type: item.transaction_type,
+      Done_By: `${item.user?.firstName} ${item.user?.lastName}`,
+      Transaction_Time: `${new Date(item.transaction_date ).toLocaleString()}`
+    }));
+  }
+
+  const columnDefs = useMemo(() => [
+    { field: 'ID', checkboxSelection: true, editable: true },
     { field: 'Product' },
     { field: 'Price', filter: 'agNumberColumnFilter' },
     { field: 'Quantity', filter: 'agNumberColumnFilter' },
-    { field: 'Transaction Type' },
-    { field: 'Done By' },
-    { field: 'Transaction Time' },
-    // {
-    //   field: 'Transaction Type',
-    //   comparator: (valueA, valueB) => {
-    //     const months = [
-    //       'January',
-    //       'February',
-    //       'March',
-    //       'April',
-    //       'May',
-    //       'June',
-    //       'July',
-    //       'August',
-    //       'September',
-    //       'October',
-    //       'November',
-    //       'December',
-    //     ];
-    //     const idxA = months.indexOf(valueA);
-    //     const idxB = months.indexOf(valueB);
-    //     return idxA - idxB;
-    //   },
-    // },
-  ]);
+    { field: 'Transaction_Type' },
+    { field: 'Done_By' },
+    { field: 'Transaction_Time' },
+  ], []);
 
-  const defaultColDef = useMemo(() => {
-    return {
-      filter: 'agTextColumnFilter',
-      floatingFilter: true,
-    };
-  }, []);
- 
+  const defaultColDef = useMemo(() => ({
+    filter: 'agTextColumnFilter',
+    floatingFilter: true,
+  }), []);
+
+  if (isLoading) {
+    return <p className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">Loading...</p>;
+  }
+
+  if (isError) {
+    return <p>Error: {error.message}</p>;
+  }
+
   return (
     <div className="ag-theme-quartz gap-4 p-4 md:gap-8 md:p-6" style={{ height: "90vh" }}>
       <AgGridReact
-        rowData={rowData}
+        rowData={transactions}
         columnDefs={columnDefs}
         defaultColDef={defaultColDef}
         rowSelection="multiple"
         suppressRowClickSelection={true}
         pagination={true}
         paginationPageSize={10}
-        paginationPageSizeSelector={[10, 20, 50, 100,200, 500, 1000]}
+        paginationPageSizeSelector={[10, 20, 50, 100, 200, 500, 1000]}
       />
     </div>
   );
 };
 
-export default GridExample
-// const root = createRoot(document.getElementById('root'));
-// root.render(
-//   <StrictMode>
-//     <GridExample />
-//   </StrictMode>
-// );
+export default GridExample;
