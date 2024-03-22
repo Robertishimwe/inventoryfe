@@ -1,6 +1,7 @@
 import React from 'react'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { useNavigate } from "react-router-dom"
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card"
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
@@ -13,6 +14,8 @@ import api from "../../utils/api";
 function DataGrid() {
 
   const [units, setUnits] = useAtom(unitsAtom);
+
+  const navigate = useNavigate();
 
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ['units'],
@@ -57,7 +60,7 @@ console.log( units);
       <Card>
         <CardHeader className="pb-4">
           <CardTitle>Unit Management</CardTitle>
-          <Button className="ml-auto" size="sm">
+          <Button className="ml-auto" size="sm" onClick={()=>  navigate("/dashboard/units/addNew")}>
             Add New Unit
           </Button>
         </CardHeader>

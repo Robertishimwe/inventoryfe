@@ -1,6 +1,7 @@
 import React from 'react'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { useNavigate } from "react-router-dom"
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem, DropdownMenuContent, DropdownMenu } from "@/components/ui/dropdown-menu"
 import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card"
@@ -14,6 +15,7 @@ import api from "../../utils/api";
 function DataGrid() {
 
   const [categories, setCategories] = useAtom(categoriesAtom);
+  const navigate = useNavigate();
 
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ['categories'],
@@ -44,7 +46,7 @@ function DataGrid() {
       <Card>
         <CardHeader className="pb-4">
           <CardTitle>Category Management</CardTitle>
-          <Button className="ml-auto" size="sm">
+          <Button className="ml-auto" size="sm" onClick={()=>  navigate("/dashboard/categories/addNew")}>
             Add New Category
           </Button>
         </CardHeader>

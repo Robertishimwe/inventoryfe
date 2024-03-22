@@ -28,9 +28,13 @@ function App() {
           <Route path="products" element={<DataGrid />} />
           <Route path="products/addNew" element={<NewProduct />} />
           <Route path="inventory" element={<InventoryDataGrid />} />
+          <Route path="inventory/addNew" element={<NewProduct />} />
           <Route path="categories" element={<CategoryDataGrid />} />
+          <Route path="categories/addNew" element={<NewProduct />} />
           <Route path="units" element={<UnitDataGrid />} />
+          <Route path="units/addNew" element={<NewProduct />} />
           <Route path="suppliers" element={<SupplierDataGrid />} />
+          <Route path="suppliers/addNew" element={<NewProduct />} />
           <Route path="transactions" element={<TransactionDataGrid />} />
         </Route>
       </Route>

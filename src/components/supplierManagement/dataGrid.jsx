@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from "react-router-dom"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem, DropdownMenuContent, DropdownMenu } from "@/components/ui/dropdown-menu"
@@ -6,13 +7,16 @@ import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card"
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
 
 function DataGrid() {
+
+  const navigate = useNavigate();
+
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
     <Card>
       <Card>
         <CardHeader className="pb-4">
           <CardTitle>Supplier Management</CardTitle>
-          <Button className="ml-auto" size="sm">
+          <Button className="ml-auto" size="sm" onClick={()=>  navigate("/dashboard/suppliers/addNew")}>
             Add New Supplier
           </Button>
         </CardHeader>
