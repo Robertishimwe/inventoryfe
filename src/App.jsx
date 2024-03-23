@@ -11,6 +11,7 @@ import SupplierDataGrid from "./components/supplierManagement/dataGrid";
 import TransactionDataGrid from "./components/transactionManagement/dataGrid";
 import NewProduct from "./components/productManagement/addNewProduct";
 import NewUnit from "./components/unitManagement/addNewUnit";
+import NewUser from "./components/userManagement/addNewUser";
 import NewSupplier from "./components/supplierManagement/addNewSupplier";
 import NewCategory from "./components/categoryManagement/addNewCategory";
 
@@ -27,6 +28,7 @@ function App() {
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<b>Home</b>} />
           <Route path="users" element={<UserManagement />} />
+          <Route path="users/addNew" element={<NewUser />} />
           <Route path="pos" element={<Pos />} />
           <Route path="products" element={<DataGrid />} />
           <Route path="products/addNew" element={<NewProduct />} />

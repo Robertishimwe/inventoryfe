@@ -37,7 +37,7 @@ function UserManagement() {
             <Card>
                 <CardHeader className="pb-4">
                     <h2 className="text-xl font-semibold">User Management</h2>
-                    <Button className="ml-auto" size="sm">
+                    <Button className="ml-auto" size="sm" onClick={() => navigate('/dashboard/users/addNew')}>
                         Add New User
                     </Button>
                 </CardHeader>
