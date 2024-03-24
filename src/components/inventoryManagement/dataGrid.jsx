@@ -32,7 +32,7 @@ const GridExample = () => {
     };
 
     fetchData();
-  }, [setTransactions]);
+  }, [setInventory]);
 
   function transformData(data) {
     return data.map(item => ({
