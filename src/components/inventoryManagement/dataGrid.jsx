@@ -7,13 +7,13 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { createRoot } from 'react-dom/client';
 
 import { useAtom } from 'jotai';
-import { transactionAtom } from "../../utils/atoms";
+import { inventoryAtom } from "../../utils/atoms";
 import api from "../../utils/api";
 
 const gridDiv = document.querySelector('#myGrid');
 
 const GridExample = () => {
-  const [transactions, setTransactions] = useAtom(transactionAtom);
+  const [inventory, setInventory] = useAtom(inventoryAtom);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null);
@@ -21,9 +21,9 @@ const GridExample = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("/api/transaction/getAll");
-        const transformedData = transformData(response.data.transactions);
-        setTransactions(transformedData);
+        const response = await api.get("/api/stock/getAllStock");
+        const transformedData = transformData(response.data.stock);
+        setInventory(transformedData);
         setIsLoading(false);
       } catch (error) {
         setIsError(true);
@@ -38,13 +38,16 @@ const GridExample = () => {
     return data.map(item => ({
       ID: item.id,
       Product: item.product?.product_name,
+      Category: item.product?.productCategory?.name,
+      Stock: parseInt(item.quantity),
       Price: parseFloat(item.product?.price),
-      Quantity: parseInt(item.quantity_sold),
-      Transaction_Type: item.transaction_type,
-      Done_By: `${item.user?.firstName} ${item.user?.lastName}`,
-      Transaction_Time: `${new Date(item.transaction_date).toLocaleString()}`
+      Unit: item.product?.unit?.unit_name,
+      Minimum_Stock_Level: parseInt(item.minimumStockLevel),
+      Stock_In_Cash: parseInt(item.quantity) * parseFloat(item.product?.price),
+      Last_Re_Stock_Date: `${new Date(item.lastRestockDate).toLocaleString()}`
     }));
-  }  
+  }
+   
 
   const columnDefs = useMemo(() => [
     { field: 'ID', checkboxSelection: true, editable: true },
@@ -74,7 +77,7 @@ const GridExample = () => {
   return (
     <div className="ag-theme-quartz gap-4 p-4 md:gap-8 md:p-6" style={{ height: "90vh" }}>
       <AgGridReact
-        rowData={transactions}
+        rowData={inventory}
         columnDefs={columnDefs}
         defaultColDef={defaultColDef}
         rowSelection="multiple"
