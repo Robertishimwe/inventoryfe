@@ -15,7 +15,7 @@ const GridExample = () => {
     queryKey: ['transactions', loggedinUser],
     queryFn: async () => {
       let dataFetchUrl;
-      if(loggedinUser?.user?.role !== "admin"){
+      if(loggedinUser?.user?.role !== "admin" && loggedinUser?.user?.role !== "manager"){
         dataFetchUrl = "/api/transaction/getAllForCurrentUser";
       } else {
         dataFetchUrl = "/api/transaction/getAll";
