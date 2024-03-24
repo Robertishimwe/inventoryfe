@@ -2,37 +2,34 @@
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
 import { AgGridReact } from 'ag-grid-react';
-import React, { StrictMode, useMemo, useState, useEffect } from 'react';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { createRoot } from 'react-dom/client';
-
-import { useAtom } from 'jotai';
-import { transactionAtom } from "../../utils/atoms";
+import React, { useMemo, useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useAtom, useAtomValue } from 'jotai';
 import api from "../../utils/api";
-
-const gridDiv = document.querySelector('#myGrid');
+import { transactionAtom, loggedinUserAtom } from "../../utils/atoms";
 
 const GridExample = () => {
   const [transactions, setTransactions] = useAtom(transactionAtom);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
-  const [error, setError] = useState(null);
+  const loggedinUser = useAtomValue(loggedinUserAtom);
+  const { isLoading, isError, error, data } = useQuery({
+    queryKey: ['transactions', loggedinUser],
+    queryFn: async () => {
+      let dataFetchUrl;
+      if(loggedinUser?.user?.role !== "admin"){
+        dataFetchUrl = "/api/transaction/getAllForCurrentUser";
+      } else {
+        dataFetchUrl = "/api/transaction/getAll";
+      }
+      const response = await api.get(dataFetchUrl);
+      return transformData(response.data.transactions);
+    }
+  });
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await api.get("/api/transaction/getAll");
-        const transformedData = transformData(response.data.transactions);
-        setTransactions(transformedData);
-        setIsLoading(false);
-      } catch (error) {
-        setIsError(true);
-        setError(error);
-      }
-    };
-
-    fetchData();
-  }, [setTransactions]);
+    if(!isLoading && !isError && data) {
+      setTransactions(data);
+    }
+  }, [isLoading, isError, data, setTransactions]);
 
   function transformData(data) {
     return data.map(item => ({
@@ -44,7 +41,7 @@ const GridExample = () => {
       Done_By: `${item.user?.firstName} ${item.user?.lastName}`,
       Transaction_Time: `${new Date(item.transaction_date).toLocaleString()}`
     }));
-  }  
+  }
 
   const columnDefs = useMemo(() => [
     { field: 'ID', checkboxSelection: true, editable: true },
@@ -61,11 +58,15 @@ const GridExample = () => {
     floatingFilter: true,
   }), []);
 
+  if(transactions.length === 0){
+    return <p className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">You have not  sold anything yet</p>;
+  }
+
   if (isLoading) {
     return <p className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">Loading...</p>;
   }
 
-  if (isError) {
+  if(isError){
     return <p>Error: {error.message}</p>;
   }
 
