@@ -42,7 +42,7 @@ const GridExample = () => {
       Stock: parseInt(item.quantity),
       Price: parseFloat(item.product?.price),
       Unit: item.product?.unit?.unit_name,
-      Minimum_Stock_Level: parseInt(item.minimumStockLevel),
+      Reorder_Stock_Level: parseInt(item.minimumStockLevel),
       Stock_In_Cash: parseInt(item.quantity) * parseFloat(item.product?.price),
       Last_Re_Stock_Date: `${new Date(item.lastRestockDate).toLocaleString()}`
     }));
@@ -56,7 +56,7 @@ const GridExample = () => {
     { field: 'Stock', filter: 'agNumberColumnFilter' },
     { field: 'Price', filter: 'agNumberColumnFilter' },
     { field: 'Unit' },
-    { field: 'Minimum_Stock_Level', filter: 'agNumberColumnFilter' },
+    { field: 'Reorder_Stock_Level', filter: 'agNumberColumnFilter' },
     { field: 'Stock_In_Cash', filter: 'agNumberColumnFilter' },
     { field: 'Last_Re_Stock_Date', filter: 'agDateColumnFilter' }
   ], []);
