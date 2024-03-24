@@ -1,9 +1,42 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { loggedinUserAtom, unitsAtom, categoriesAtom, productsAtom, inventoryAtom, suppliersAtom, transactionAtom, cartAtom, usersAtom, cartItemAtom } from "../utils/atoms"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem, DropdownMenuContent, DropdownMenu } from "@/components/ui/dropdown-menu"
 
+import { useResetAtom } from 'jotai/utils';
+
 function Header() {
+
+  const resetLoggedinUser = useResetAtom(loggedinUserAtom);
+  const resetUnits = useResetAtom(unitsAtom);
+  const resetCategories = useResetAtom(categoriesAtom);
+  const resetProducts = useResetAtom(productsAtom);
+  const resetInventory = useResetAtom(inventoryAtom);
+  const resetSuppliers = useResetAtom(suppliersAtom);
+  const resetTransaction = useResetAtom(transactionAtom);
+  const resetCart = useResetAtom(cartAtom);
+  const resetUsers = useResetAtom(usersAtom);
+  const resetCartItem = useResetAtom(cartItemAtom);
+
+  const resetAllAtoms = () => {
+    resetLoggedinUser();
+    resetUnits();
+    resetCategories();
+    resetProducts();
+    resetInventory();
+    resetSuppliers();
+    resetTransaction();
+    resetCart();
+    resetUsers();
+    resetCartItem();
+  }
+
+  const handleLogout = () => {
+    resetAllAtoms();
+    window.location.reload(); // refresh the page
+  };
+
   return (
     <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">
     <Link className="lg:hidden" href="#">
@@ -45,7 +78,7 @@ function Header() {
         <DropdownMenuItem>Settings</DropdownMenuItem>
         <DropdownMenuItem>Support</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Logout</DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   </header>
