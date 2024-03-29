@@ -7,7 +7,7 @@ import DataGrid from "./components/productManagement/dataGrid";
 import CategoryDataGrid from "./components/categoryManagement/dataGrid";
 import UnitDataGrid from "./components/unitManagement/dataGrid";
 import InventoryDataGrid from "./components/inventoryManagement/dataGrid";
-import SupplierDataGrid from "./components/supplierManagement/dataGrid";
+import SupplierDataGrid from "./components/supplierManagement/dataGrid2";
 import TransactionDataGrid from "./components/transactionManagement/dataGrid";
 import NewProduct from "./components/productManagement/addNewProduct";
 import NewUnit from "./components/unitManagement/addNewUnit";
