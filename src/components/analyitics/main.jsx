@@ -7,118 +7,195 @@ import { Calendar } from "@/components/ui/calendar"
 import { CardDescription, CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card"
 import { ResponsiveLine } from "@nivo/line"
 import { ResponsiveBar } from "@nivo/bar"
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
 
 export default function Component() {
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
 
-      <div className="flex flex-col">
-        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-          <div className="flex items-center gap-4">
-            <Button size="icon" variant="outline">
+
+      <h1 className="font-semibold text-lg md:text-xl">Analyitics</h1>
+
+
+
+      {/* <div className="ml-auto flex items-center gap-2">
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button className="w-[200px] justify-start text-left font-normal" id="date" variant="outline">
+              <CalendarClockIcon className="mr-2 h-4 w-4" />
+              June 01, 2023 - June 30, 2023
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent align="end" className="w-auto p-0">
+            <Calendar initialFocus mode="range" numberOfMonths={2} />
+          </PopoverContent>
+        </Popover>
+      </div> */}
+      <ScrollArea className="h-1/2 w-full">
+
+        <div className="grid gap-4 md:grid-cols-2">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+              <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
+              <DollarSignIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">$45,231.89</div>
+              <p className="text-xs text-gray-500 dark:text-gray-400">+20.1% from last month</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+              <CardTitle className="text-sm font-medium">Subscriptions</CardTitle>
+              <UsersIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">+2350</div>
+              <p className="text-xs text-gray-500 dark:text-gray-400">+180.1% from last month</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+              <CardTitle className="text-sm font-medium">Sales</CardTitle>
+              <CreditCardIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">+12,234</div>
+              <p className="text-xs text-gray-500 dark:text-gray-400">+19% from last month</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+              <CardTitle className="text-sm font-medium">Active Now</CardTitle>
+              <ActivityIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">+573</div>
+              <p className="text-xs text-gray-500 dark:text-gray-400">+201 since last hour</p>
+            </CardContent>
+          </Card>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div className="flex flex-col">
+          <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
+            <div className="flex items-center gap-4">
+              {/* <Button size="icon" variant="outline">
               <ArrowLeftIcon className="h-4 w-4" />
               <span className="sr-only">Back</span>
-            </Button>
-            <h1 className="font-semibold text-lg md:text-xl">Hardware Store</h1>
-            <div className="ml-auto flex items-center gap-2">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button className="w-[200px] justify-start text-left font-normal" id="date" variant="outline">
-                    <CalendarClockIcon className="mr-2 h-4 w-4" />
-                    June 01, 2023 - June 30, 2023
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent align="end" className="w-auto p-0">
-                  <Calendar initialFocus mode="range" numberOfMonths={2} />
-                </PopoverContent>
-              </Popover>
+            </Button> */}
+
             </div>
-          </div>
-          <div className="grid gap-6">
-            <div className="grid md:grid-cols-3 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardDescription>Daily Sales</CardDescription>
-                  <CardTitle>$12,345.00</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CurvedlineChart className="aspect-[2/1]" />
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardDescription>Inventory Levels</CardDescription>
-                  <CardTitle>Low</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <BarChart className="aspect-[2/1]" />
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardDescription>Customer Satisfaction</CardDescription>
-                  <CardTitle>85%</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CurvedlineChart className="aspect-[2/1]" />
-                </CardContent>
-              </Card>
+            <div className="grid gap-6">
+              <div className="grid md:grid-cols-3 gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardDescription>Daily Sales</CardDescription>
+                    <CardTitle>$12,345.00</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CurvedlineChart className="aspect-[2/1]" />
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader>
+                    <CardDescription>Inventory Levels</CardDescription>
+                    <CardTitle>Low</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <BarChart className="aspect-[2/1]" />
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader>
+                    <CardDescription>Customer Satisfaction</CardDescription>
+                    <CardTitle>85%</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CurvedlineChart className="aspect-[2/1]" />
+                  </CardContent>
+                </Card>
+              </div>
+              <h2 className="font-semibold text-lg md:text-xl">Orders</h2>
+              <div className="border shadow-sm rounded-lg">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Order ID</TableHead>
+                      <TableHead>Customer</TableHead>
+                      <TableHead>Date</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead className="text-right">Total</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell className="font-semibold">ORD001</TableCell>
+                      <TableCell>John Doe</TableCell>
+                      <TableCell>2023-06-01</TableCell>
+                      <TableCell>Pending</TableCell>
+                      <TableCell className="text-right">$250.00</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-semibold">ORD002</TableCell>
+                      <TableCell>Alice Johnson</TableCell>
+                      <TableCell>2023-06-02</TableCell>
+                      <TableCell>Shipped</TableCell>
+                      <TableCell className="text-right">$150.00</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-semibold">ORD003</TableCell>
+                      <TableCell>Bob Smith</TableCell>
+                      <TableCell>2023-06-03</TableCell>
+                      <TableCell>Delivered</TableCell>
+                      <TableCell className="text-right">$350.00</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-semibold">ORD004</TableCell>
+                      <TableCell>Emma Brown</TableCell>
+                      <TableCell>2023-06-04</TableCell>
+                      <TableCell>Pending</TableCell>
+                      <TableCell className="text-right">$450.00</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-semibold">ORD005</TableCell>
+                      <TableCell>Michael Lee</TableCell>
+                      <TableCell>2023-06-05</TableCell>
+                      <TableCell>Shipped</TableCell>
+                      <TableCell className="text-right">$550.00</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </div>
             </div>
-            <h2 className="font-semibold text-lg md:text-xl">Orders</h2>
-            <div className="border shadow-sm rounded-lg">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Order ID</TableHead>
-                    <TableHead>Customer</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="text-right">Total</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  <TableRow>
-                    <TableCell className="font-semibold">ORD001</TableCell>
-                    <TableCell>John Doe</TableCell>
-                    <TableCell>2023-06-01</TableCell>
-                    <TableCell>Pending</TableCell>
-                    <TableCell className="text-right">$250.00</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className="font-semibold">ORD002</TableCell>
-                    <TableCell>Alice Johnson</TableCell>
-                    <TableCell>2023-06-02</TableCell>
-                    <TableCell>Shipped</TableCell>
-                    <TableCell className="text-right">$150.00</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className="font-semibold">ORD003</TableCell>
-                    <TableCell>Bob Smith</TableCell>
-                    <TableCell>2023-06-03</TableCell>
-                    <TableCell>Delivered</TableCell>
-                    <TableCell className="text-right">$350.00</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className="font-semibold">ORD004</TableCell>
-                    <TableCell>Emma Brown</TableCell>
-                    <TableCell>2023-06-04</TableCell>
-                    <TableCell>Pending</TableCell>
-                    <TableCell className="text-right">$450.00</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className="font-semibold">ORD005</TableCell>
-                    <TableCell>Michael Lee</TableCell>
-                    <TableCell>2023-06-05</TableCell>
-                    <TableCell>Shipped</TableCell>
-                    <TableCell className="text-right">$550.00</TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </div>
-          </div>
-        </main>
-      </div>
+          </main>
+        </div>
+      </ScrollArea>
     </div>
   )
 }
@@ -260,17 +337,17 @@ function CurvedlineChart(props) {
               { x: "Jun", y: 154 },
             ],
           },
-          {
-            id: "Mobile",
-            data: [
-              { x: "Jan", y: 60 },
-              { x: "Feb", y: 48 },
-              { x: "Mar", y: 177 },
-              { x: "Apr", y: 78 },
-              { x: "May", y: 96 },
-              { x: "Jun", y: 204 },
-            ],
-          },
+          // {
+          //   id: "Mobile",
+          //   data: [
+          //     { x: "Jan", y: 60 },
+          //     { x: "Feb", y: 48 },
+          //     { x: "Mar", y: 177 },
+          //     { x: "Apr", y: 78 },
+          //     { x: "May", y: 96 },
+          //     { x: "Jun", y: 204 },
+          //   ],
+          // },
         ]}
         margin={{ top: 10, right: 10, bottom: 40, left: 40 }}
         xScale={{
@@ -409,6 +486,87 @@ function Package2Icon(props) {
   )
 }
 
+function DollarSignIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <line x1="12" x2="12" y1="2" y2="22" />
+      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+    </svg>
+  )
+}
+
+function UsersIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  )
+}
+
+function CreditCardIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect width="20" height="14" x="2" y="5" rx="2" />
+      <line x1="2" x2="22" y1="10" y2="10" />
+    </svg>
+  )
+}
+
+
+function ActivityIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+    </svg>
+  )
+}
 
 function SearchIcon(props) {
   return (
