@@ -1,24 +1,33 @@
 import React from 'react';
+import { Button } from "@/components/ui/button"
+import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card"
+import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
 import { useNavigate } from "react-router-dom";
 import { useQuery } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
-import { suppliersAtom } from "../../utils/atoms"; // Import the suppliers atom
-import api from "../../utils/api"; // Import the API utility
-import { Button } from "@/components/ui/button"
-
+import { usersAtom } from "../../utils/atoms"; 
 import ReusableTable from '../ReusableTable';
+import api from "../../utils/api"; 
 
-function SupplierDataGrid() {
-    const [suppliers, setSuppliers] = useAtom(suppliersAtom);
+function UserManagement() {
+    const [users, setUsers] = useAtom(usersAtom);
     const navigate = useNavigate();
 
     const { isLoading, isError, data, error } = useQuery({
-        queryKey: ['suppliers'],
+        queryKey: ['users'],
         queryFn: async () => {
-            const response = await api.get('/api/Supplier/getAll');
-            return response?.data?.suppliers;
+            const response = await api.get('/api/user/getAll');
+            return response?.data;
         }
     });
+
+    const columns = [
+        'Id',
+        'FirstName',
+        'LastName',
+        'Email',
+        'Role'
+      ];
 
     if (isLoading) {
         return <p>Loading...</p>; // Render a loading indicator while data is being fetched
@@ -29,18 +38,11 @@ function SupplierDataGrid() {
     }
 
     if (data) {
-        console.log(">>>>>>>",data);
-        setSuppliers(data); // Once data is fetched successfully, set it in the state
+        setUsers(data); // Once data is fetched successfully, set it in the state
     }
 
-    const columns = [
-        'id',
-        'name',
-        'contact'
-      ];
-
     const handleAdd = () => {
-        navigate("/dashboard/suppliers/addNew");
+        navigate('/dashboard/users/addNew');
     };
 
     const handleEdit = (row) => {
@@ -51,24 +53,22 @@ function SupplierDataGrid() {
         navigate(`/supplier/delete/${row.id}`);
     };
 
-    const handleImport = () => {
-        // Implement import logic here
-    };
-  
-    const handleExport = () => {
-        // Implement export logic here
-    };
+    console.log(">>>>>>>", users);
 
-    const supplierData = suppliers.map((supplier) => ({
-        id: supplier.id,
-        name: supplier.supplierName,
-        contact: supplier.contact,
+    const userDatas = users.map((user) => ({
+        id: user.id,
+        firstname: user.firstName,
+        lastname: user.lastName,
+        email: user.email,
+        role: user.role,
     }));
+
+    console.log(">>>>>>>!!!!!", userDatas);
 
     return (
         <ReusableTable
             columns={columns}
-            data={supplierData}
+            data={userDatas}
             title="Supplier Management"
             searchPlaceholder="Search..."
             onAdd={handleAdd}
@@ -89,4 +89,4 @@ function SupplierDataGrid() {
     );
 }
 
-export default SupplierDataGrid;
+export default UserManagement;

@@ -1,6 +1,6 @@
 import { Route, Routes, Navigate } from "react-router-dom";
 import DashboardLayout from "./layouts/dashboard";
-import UserManagement from "./components/UserManagement";
+import UserManagement from "./components/userManagement/dataGrid";
 import Login from "./pages/login";
 import Pos from "./pages/pos";
 import DataGrid from "./components/productManagement/dataGrid";
