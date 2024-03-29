@@ -140,9 +140,11 @@ function MostSellingProduct() {
     <Card>
       <CardHeader>
         <CardDescription>Most Selling Product</CardDescription>
-        <CardTitle>Best 4</CardTitle>
+        <CardTitle>Top: {data[0].total_sold * -1}</CardTitle>
       </CardHeader>
       <CardContent>
+        {isLoading && <div>Loading...</div>}
+        {isError && <div>Error: {error.message}</div>}
         {data && <BarChart data={data} className="aspect-[2/1]" />}
       </CardContent>
     </Card>
