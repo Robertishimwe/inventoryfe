@@ -46,11 +46,11 @@ function UserManagement() {
     };
 
     const handleEdit = (row) => {
-        navigate(`/supplier/edit/${row.id}`);
+        navigate(`/dashboard/users/edit/${row.id}`);
     };
   
     const handleDelete = (row) => {
-        navigate(`/supplier/delete/${row.id}`);
+        navigate(`/dashboard/users/delete/${row.id}`);
     };
 
     console.log(">>>>>>>", users);
@@ -69,7 +69,7 @@ function UserManagement() {
         <ReusableTable
             columns={columns}
             data={userDatas}
-            title="Supplier Management"
+            title="User Management"
             searchPlaceholder="Search..."
             onAdd={handleAdd}
             onEdit={handleEdit}
