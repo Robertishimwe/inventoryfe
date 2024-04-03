@@ -2,173 +2,88 @@
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
 import { AgGridReact } from 'ag-grid-react';
-import React, { StrictMode, useMemo, useState } from 'react';
-import { createRoot } from 'react-dom/client';
+import React, { useMemo, useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useAtom, useAtomValue } from 'jotai';
+import api from "../../utils/api";
+import { transactionAtom, loggedinUserAtom } from "../../utils/atoms";
 
-const gridDiv = document.querySelector('#myGrid');
+const GridExample = () => {
+  const [transactions, setTransactions] = useAtom(transactionAtom);
+  const loggedinUser = useAtomValue(loggedinUserAtom);
+  const { isLoading, isError, error, data } = useQuery({
+    queryKey: ['transactions', loggedinUser],
+    queryFn: async () => {
+      let dataFetchUrl;
+      if(loggedinUser?.user?.role !== "admin" && loggedinUser?.user?.role !== "manager"){
+        dataFetchUrl = "/api/transaction/getAllForCurrentUser";
+      } else {
+        dataFetchUrl = "/api/transaction/getAll";
+      }
+      const response = await api.get(dataFetchUrl);
+      return transformData(response.data.transactions);
+    }
+  });
 
- const GridExample = () => {
-  const [rowData, setRowData] = useState([
-    {
-      make: 'Tesla',
-      model: 'Model Y',
-      price: 64950,
-      electric: true,
-      month: 'June',
-    },
-    {
-      make: 'Ford',
-      model: 'F-Series',
-      price: 33850,
-      electric: false,
-      month: 'October',
-    },
-    {
-      make: 'Toyota',
-      model: 'Corolla',
-      price: 29600,
-      electric: false,
-      month: 'August',
-    },
-    {
-      make: 'Mercedes',
-      model: 'EQA',
-      price: 48890,
-      electric: true,
-      month: 'February',
-    },
-    {
-      make: 'Fiat',
-      model: '500',
-      price: 15774,
-      electric: false,
-      month: 'January',
-    },
-    {
-      make: 'Nissan',
-      model: 'Juke',
-      price: 20675,
-      electric: false,
-      month: 'March',
-    },
-    {
-      make: 'Vauxhall',
-      model: 'Corsa',
-      price: 18460,
-      electric: false,
-      month: 'July',
-    },
-    {
-      make: 'Volvo',
-      model: 'EX30',
-      price: 33795,
-      electric: true,
-      month: 'September',
-    },
-    {
-      make: 'Mercedes',
-      model: 'Maybach',
-      price: 175720,
-      electric: false,
-      month: 'December',
-    },
-    {
-      make: 'Vauxhall',
-      model: 'Astra',
-      price: 25795,
-      electric: false,
-      month: 'April',
-    },
-    {
-      make: 'Fiat',
-      model: 'Panda',
-      price: 13724,
-      electric: false,
-      month: 'November',
-    },
-    {
-      make: 'Jaguar',
-      model: 'I-PACE',
-      price: 69425,
-      electric: true,
-      month: 'May',
-    },
-  ]);
+  useEffect(() => {
+    if(!isLoading && !isError && data) {
+      setTransactions(data);
+    }
+  }, [isLoading, isError, data, setTransactions]);
 
-  const [columnDefs, setColumnDefs] = useState([
-    {
-      field: 'make',
-      checkboxSelection: true,
-      editable: true,
-      cellEditor: 'agSelectCellEditor',
-      cellEditorParams: {
-        values: [
-          'Tesla',
-          'Ford',
-          'Toyota',
-          'Mercedes',
-          'Fiat',
-          'Nissan',
-          'Vauxhall',
-          'Volvo',
-          'Jaguar',
-        ],
-      },
-    },
-    { field: 'model' },
-    { field: 'price', filter: 'agNumberColumnFilter' },
-    { field: 'electric' },
-    {
-      field: 'month',
-      comparator: (valueA, valueB) => {
-        const months = [
-          'January',
-          'February',
-          'March',
-          'April',
-          'May',
-          'June',
-          'July',
-          'August',
-          'September',
-          'October',
-          'November',
-          'December',
-        ];
-        const idxA = months.indexOf(valueA);
-        const idxB = months.indexOf(valueB);
-        return idxA - idxB;
-      },
-    },
-  ]);
+  function transformData(data) {
+    return data.map(item => ({
+      ID: item.id,
+      Product: item.product?.product_name,
+      Price: parseFloat(item.product?.price),
+      Quantity: parseInt(item.quantity_sold),
+      Transaction_Type: item.transaction_type,
+      Done_By: `${item.user?.firstName} ${item.user?.lastName}`,
+      Transaction_Time: `${new Date(item.transaction_date).toLocaleString()}`
+    }));
+  }
 
-  const defaultColDef = useMemo(() => {
-    return {
-      filter: 'agTextColumnFilter',
-      floatingFilter: true,
-    };
-  }, []);
- 
+  const columnDefs = useMemo(() => [
+    { field: 'ID', checkboxSelection: true, editable: true },
+    { field: 'Product' },
+    { field: 'Price', filter: 'agNumberColumnFilter' },
+    { field: 'Quantity', filter: 'agNumberColumnFilter' },
+    { field: 'Transaction_Type' },
+    { field: 'Done_By' },
+    { field: 'Transaction_Time' },
+  ], []);
+
+  const defaultColDef = useMemo(() => ({
+    filter: 'agTextColumnFilter',
+    floatingFilter: true,
+  }), []);
+
+  if (isLoading) {
+    return <p className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">Loading...</p>;
+  }
+
+  if(transactions.length === 0){
+    return <p className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">You have not  sold anything yet</p>;
+  }
+
+  if(isError){
+    return <p>Error: {error.message}</p>;
+  }
+
   return (
     <div className="ag-theme-quartz gap-4 p-4 md:gap-8 md:p-6" style={{ height: "90vh" }}>
       <AgGridReact
-        rowData={rowData}
+        rowData={transactions}
         columnDefs={columnDefs}
         defaultColDef={defaultColDef}
         rowSelection="multiple"
         suppressRowClickSelection={true}
         pagination={true}
         paginationPageSize={10}
-        paginationPageSizeSelector={[10, 20, 50, 100,200, 500, 1000]}
+        paginationPageSizeSelector={[10, 20, 50, 100, 200, 500, 1000]}
       />
     </div>
   );
 };
 
-export default GridExample
-// const root = createRoot(document.getElementById('root'));
-// root.render(
-//   <StrictMode>
-//     <GridExample />
-//   </StrictMode>
-// );
+export default GridExample;

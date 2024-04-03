@@ -1,13 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import toast from "react-hot-toast";
 import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import api from "../../utils/api";
-import { categoriesAtom } from "../../utils/atoms";
-import { suppliersAtom } from "../../utils/atoms";
-import { unitsAtom } from "../../utils/atoms";
+import { categoriesAtom, suppliersAtom, unitsAtom } from "../../utils/atoms";
 
 export default function NewProduct() {
   const [categories, setCategories] = useAtom(categoriesAtom);
@@ -20,51 +18,34 @@ export default function NewProduct() {
   const [supplierId, setSupplierId] = useState("");
   const [unitId, setUnitId] = useState("");
   const [price, setPrice] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { isLoading: categoriesLoading, data: categoriesData } = useQuery({
-    queryKey: ["categories"],
+  const { isLoading: dataLoading, data } = useQuery({
+    queryKey: "data",
     queryFn: async () => {
-      const response = await api.get("/api/category/getAll");
-      return response?.data?.categories;
+      const [categoriesRes, suppliersRes, unitsRes] = await Promise.all([
+        api.get("/api/category/getAll"),
+        api.get("/api/Supplier/getAll"),
+        api.get("/api/units/getAll")
+      ]);
+      return { categories: categoriesRes.data.categories, suppliers: suppliersRes.data.suppliers, units: unitsRes.data.units };
     },
+    staleTime: Infinity, // Data is considered fresh forever
+    cacheTime: Infinity, // Data is kept in the cache forever
     onSuccess: (data) => {
-      setCategories(data);
-    },
+      setCategories(data.categories);
+      setSuppliers(data.suppliers);
+      setUnits(data.units);
+    }
   });
 
-  const { isLoading: suppliersLoading, data: suppliersData } = useQuery({
-    queryKey: ["suppliers"],
-    queryFn: async () => {
-      const response = await api.get("/api/Supplier/getAll");
-      return response?.data?.suppliers;
-    },
-    onSuccess: (data) => {
-      setSuppliers(data);
-    },
-  });
-
-  const { isLoading: unitsLoading, data: unitsData } = useQuery({
-    queryKey: ["units"],
-    queryFn: async () => {
-      const response = await api.get("/api/units/getAll");
-      return response?.data?.units;
-    },
-    onSuccess: (data) => {
-      setUnits(data);
-    },
-  });
-
-  if (categoriesData) {
-    setCategories(categoriesData);
-  }
-
-  if (suppliersData) {
-    setSuppliers(suppliersData);
-  }
-
-  if (unitsData) {
-    setUnits(unitsData);
-  }
+  useEffect(() => {
+    if (data) {
+      setCategories(data.categories);
+      setSuppliers(data.suppliers);
+      setUnits(data.units);
+    }
+  }, [data]);
 
   const { mutate: addProduct } = useMutation({
     mutationFn: async () => {
@@ -78,20 +59,31 @@ export default function NewProduct() {
       });
       return response.data;
     },
-    onSuccess: (data) => {
-      console.log("Product added successfully:", data);
+    onSuccess: () => {
+      toast.success("Product added successfully");
+      setProductName("");
+      setDescription("");
+      setCategoryId("");
+      setSupplierId("");
+      setUnitId("");
+      setPrice("");
+      setIsLoading(false);
     },
     onError: (error) => {
-      console.error("Error adding product:", error);
+      toast.error(`${error?.response?.data?.error}`, {
+        duration: 9000,
+        position: 'top-center'});
+        setIsLoading(false);
     },
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     addProduct();
   };
 
-  if (categoriesLoading || suppliersLoading || unitsLoading) {
+  if (dataLoading) {
     return <p>Loading...</p>;
   }
 
@@ -102,10 +94,7 @@ export default function NewProduct() {
           <CardTitle>Add New Product</CardTitle>
         </CardHeader>
         <CardContent>
-          <form
-            onSubmit={handleSubmit}
-            className="grid grid-cols-1 gap-4 md:grid-cols-2"
-          >
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <label className="flex flex-col">
               <span className="text-sm font-medium">Product Name</span>
               <input
@@ -114,6 +103,7 @@ export default function NewProduct() {
                 onChange={(e) => setProductName(e.target.value)}
                 placeholder="Enter product name"
                 type="text"
+                required
               />
             </label>
             <label className="flex flex-col">
@@ -180,8 +170,8 @@ export default function NewProduct() {
                 type="text"
               />
             </label>
-            <Button className="col-span-2" size="sm" type="submit">
-              Add Product
+            <Button className="col-span-2" size="sm" type="submit" disabled={isLoading}>
+              {isLoading ? "Adding..." : "Add Product"}
             </Button>
           </form>
         </CardContent>

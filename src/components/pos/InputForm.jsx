@@ -2,27 +2,11 @@ import React, { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenuTrigger,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuItem,
-  DropdownMenuContent,
-  DropdownMenu,
-} from "@/components/ui/dropdown-menu";
 import { Label } from "@/components/ui/label";
-import {
-  TableHead,
-  TableRow,
-  TableHeader,
-  TableCell,
-  TableBody,
-  Table,
-} from "@/components/ui/table";
-import { Card } from "@/components/ui/card";
 import { useAtom } from 'jotai';
 import { cartAtom, productsAtom } from "../../utils/atoms";
 import api from "../../utils/api";
+import Select from 'react-select';
 
 function InputForm() {
   const productRef = useRef();
@@ -32,6 +16,7 @@ function InputForm() {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,19 +45,15 @@ function InputForm() {
   }
 
   const handleAddToCart = () => {
-    const productName = productRef.current.value;
+    const productName = selectedProduct ? selectedProduct.label : '';
     const quantity = parseInt(quantityRef.current.value);
-    const selectedProduct = products.find(product => product.product_name === productName);
-
     if (selectedProduct && quantity > 0) {
-      const newItem = { id: selectedProduct.id, product: productName, price: selectedProduct.price, quantity };
+      const newItem = { id: selectedProduct.value, product: productName, price: selectedProduct.price, quantity };
       setCart((prevCart) => [...prevCart, newItem]);
-      productRef.current.value = "";
+      setSelectedProduct(null);
       quantityRef.current.value = "";
     }
   };
-  console.log(">>>>>>>products", products)
-  console.log(">>>>>>>", cart)
 
   return (
     <>
@@ -82,19 +63,16 @@ function InputForm() {
           <Label className="text-base ml-6" htmlFor="product">
             Product
           </Label>
-          <Input
+          <Select
             ref={productRef}
             className="w-[95%] ml-6"
             id="product"
-            list="products"
-            placeholder="Enter product name or code"
-            type="text"
+            options={products.map(product => ({ value: product.id, label: product.product_name, price: product.price }))}
+            onChange={setSelectedProduct}
+            value={selectedProduct}
+            placeholder="Select product"
+            isSearchable
           />
-          <datalist id="products">
-            {products.map(product => (
-              <option key={product.id} value={product.product_name} />
-            ))}
-          </datalist>
         </div>
         <div>
           <Label className="text-base ml-6" htmlFor="quantity">
@@ -102,7 +80,7 @@ function InputForm() {
           </Label>
           <Input
             ref={quantityRef}
-            className="w-[95%] ml-6"
+            className="w-[95%] ml-6 text-base" // Apply the same font and size as Product
             id="quantity"
             placeholder="Enter quantity"
             type="number"

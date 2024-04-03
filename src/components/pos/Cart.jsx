@@ -60,6 +60,9 @@ function Cart() {
   const handleConfirmSell = () => {
     mutate(transformedCartData);
   };
+  const handleRemoveProduct = (productIndex) => {
+    setCart((prevCart) => prevCart.filter((_, index) => index !== productIndex));
+  };
 
   return (
     <>
@@ -73,6 +76,7 @@ function Cart() {
             <TableHead>Quantity</TableHead>
             <TableHead>Unit Price</TableHead>
             <TableHead>Extended Price</TableHead>
+            <TableHead></TableHead> {/* Empty table head for remove button */}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -83,6 +87,11 @@ function Cart() {
                 <TableCell>{item.quantity}</TableCell>
                 <TableCell>{item.price}</TableCell>
                 <TableCell>{Number(item.price) * item.quantity} Frw</TableCell>
+                <TableCell>
+                  <Button variant="destructive" size="icon" onClick={() => handleRemoveProduct(index)}>
+                    -
+                  </Button>
+                </TableCell>
               </TableRow>
             ))
           ) : (

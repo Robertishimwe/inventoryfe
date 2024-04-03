@@ -8,4 +8,5 @@ export const inventoryAtom = atomWithStorage('inventory', []);
 export const suppliersAtom = atomWithStorage('suppliers', []);
 export const transactionAtom = atomWithStorage('transaction', []);
 export const cartAtom = atomWithStorage('cart', []);
+export const usersAtom = atomWithStorage('users', []);
 export const cartItemAtom = atomWithStorage('cartItem', []);
