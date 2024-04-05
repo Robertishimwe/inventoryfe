@@ -26,7 +26,7 @@ function DataGrid() {
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ['products'],
     queryFn: async () => {
-      const response = await api.get('/api/product/getAll');
+      const response = await api.get('/api/product');
       return response?.data;
     }
   })
