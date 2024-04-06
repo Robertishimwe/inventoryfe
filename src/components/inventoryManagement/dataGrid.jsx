@@ -34,22 +34,36 @@ const GridExample = () => {
     fetchData();
   }, [setInventory]);
 
+  // function transformData(data) {
+  //   return data.map(item => ({
+  //     ID: item.id,
+  //     Product: item.product?.product_name,
+  //     Category: item.product?.productCategory?.name,
+  //     Stock: parseInt(item.quantity),
+  //     Buying_Price: parseFloat(item?.buying_price),
+  //     Selling_Price: parseFloat(item?.selling_price),
+  //     Unit: item.product?.unit?.unit_name,
+  //     Reorder_Stock_Level: parseInt(item.minimumStockLevel),
+  //     Stock_In_Cash: parseInt(item.quantity) * parseFloat(item?.buying_price),
+  //     Last_Re_Stock_Date: `${new Date(item.lastRestockDate).toLocaleString()}`
+  //   }));
+  // }
+   
   function transformData(data) {
     return data.map(item => ({
       ID: item.id,
       Product: item.product?.product_name,
       Category: item.product?.productCategory?.name,
       Stock: parseInt(item.quantity),
-      Buying_Price: parseFloat(item.product?.buying_price),
-      Selling_Price: parseFloat(item.product?.selling_price),
+      Buying_Price: parseFloat(item?.buying_price),
+      Selling_Price: parseFloat(item?.selling_price),
       Unit: item.product?.unit?.unit_name,
       Reorder_Stock_Level: parseInt(item.minimumStockLevel),
-      Stock_In_Cash: parseInt(item.quantity) * parseFloat(item.product?.price),
-      Last_Re_Stock_Date: `${new Date(item.lastRestockDate).toLocaleString()}`
+      Stock_In_Cash: parseInt(item.quantity) * parseFloat(item?.buying_price),
+      Last_Re_Stock_Date: `${new Date(item.lastRestockDate).getDate()}/${(new Date(item.lastRestockDate).getMonth() + 1).toString().padStart(2, '0')}/${new Date(item.lastRestockDate).getFullYear()}`
     }));
   }
-   
-
+  
   const columnDefs = useMemo(() => [
     { field: 'ID', checkboxSelection: true, editable: true },
     { field: 'Product' },
