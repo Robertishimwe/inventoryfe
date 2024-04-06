@@ -23,10 +23,10 @@ function DataGrid() {
                 <TableHead>ID</TableHead>
                 <TableHead>Product Name</TableHead>
                 <TableHead>Category</TableHead>
-                <TableHead>Price</TableHead>
+                <TableHead>Buying Price</TableHead>
+                <TableHead>Selling Price</TableHead>
                 <TableHead>Stock</TableHead>
                 <TableHead>Unit</TableHead>
-                {/* <TableHead>Stock in cash</TableHead> */}
                 <TableHead>Minimum Stock Level</TableHead>
                 <TableHead>Last re-stock date</TableHead>
               </TableRow>
