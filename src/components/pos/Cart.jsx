@@ -96,6 +96,7 @@ function Cart() {
                 <TableCell>
                   <Input
                     type="number"
+                    min={0}
                     value={item.quantity}
                     onChange={(e) => handleQuantityChange(index, e.target.value)}
                   />
