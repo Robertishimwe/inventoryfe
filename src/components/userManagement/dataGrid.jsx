@@ -1,7 +1,4 @@
 import React from 'react';
-import { Button } from "@/components/ui/button"
-import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card"
-import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
 import { useNavigate } from "react-router-dom";
 import { useQuery } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
@@ -20,14 +17,6 @@ function UserManagement() {
             return response?.data;
         }
     });
-
-    const columns = [
-        'Id',
-        'FirstName',
-        'LastName',
-        'Email',
-        'Role'
-      ];
 
     if (isLoading) {
         return <p>Loading...</p>; // Render a loading indicator while data is being fetched
@@ -53,22 +42,19 @@ function UserManagement() {
         navigate(`/dashboard/users/delete/${row.id}`);
     };
 
-    console.log(">>>>>>>", users);
-
-    const userDatas = users.map((user) => ({
-        id: user.id,
-        firstname: user.firstName,
-        lastname: user.lastName,
-        email: user.email,
-        role: user.role,
-    }));
-
-    console.log(">>>>>>>!!!!!", userDatas);
+    const columnMapping = [
+        { columnName: "Id", fieldName: "id" },
+        { columnName: "First name", fieldName: "firstName" },
+        { columnName: "Last name",  fieldName: "lastName" },
+        { columnName: "Phone",  fieldName: "phone" },
+        { columnName: "Email",  fieldName: "email" },
+        { columnName: "Role",  fieldName: "role" },
+      ];
 
     return (
         <ReusableTable
-            columns={columns}
-            data={userDatas}
+            columnMapping={columnMapping}
+            data={users}
             title="User Management"
             searchPlaceholder="Search..."
             onAdd={handleAdd}
@@ -77,14 +63,6 @@ function UserManagement() {
             itemsPerPageOptions={[10, 25, 50, 100]}
             showAddButton={true}
             showSearchInput={true}
-            // additionalButtons={[
-            //     <Button key="import-btn" variant="ghost">
-            //         Import
-            //     </Button>,
-            //     <Button key="export-btn" variant="ghost">
-            //         Export
-            //     </Button>,
-            // ]}
         />
     );
 }

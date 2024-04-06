@@ -4,7 +4,6 @@ import { useQuery } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 import { suppliersAtom } from "../../utils/atoms"; // Import the suppliers atom
 import api from "../../utils/api"; // Import the API utility
-import { Button } from "@/components/ui/button"
 
 import ReusableTable from '../ReusableTable';
 
@@ -29,15 +28,8 @@ function SupplierDataGrid() {
     }
 
     if (data) {
-        console.log(">>>>>>>",data);
         setSuppliers(data); // Once data is fetched successfully, set it in the state
     }
-
-    const columns = [
-        'id',
-        'name',
-        'contact'
-      ];
 
     const handleAdd = () => {
         navigate("/dashboard/suppliers/addNew");
@@ -59,16 +51,17 @@ function SupplierDataGrid() {
         // Implement export logic here
     };
 
-    const supplierData = suppliers.map((supplier) => ({
-        id: supplier.id,
-        name: supplier.supplierName,
-        contact: supplier.contact,
-    }));
+
+    const columnMapping = [
+        { columnName: "Id", fieldName: "id" },
+        { columnName: "Supplier Name", fieldName: "supplierName" },
+        { columnName: "Supplier Contact",  fieldName: "contact" },
+      ];
 
     return (
         <ReusableTable
-            columns={columns}
-            data={supplierData}
+            columnMapping={columnMapping}
+            data={suppliers}
             title="Supplier Management"
             searchPlaceholder="Search..."
             onAdd={handleAdd}
