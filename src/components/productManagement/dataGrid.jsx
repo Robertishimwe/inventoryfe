@@ -36,15 +36,15 @@ function DataGrid() {
 
 
   const handleAdd = () => {
-    navigate('/dashboard/users/addNew');
+    navigate('/dashboard/products/addNew');
 };
 
 const handleEdit = (row) => {
-    navigate(`/dashboard/users/edit/${row.id}`);
+    navigate(`/dashboard/products/edit/${row.id}`);
 };
 
 const handleDelete = (row) => {
-    navigate(`/dashboard/users/delete/${row.id}`);
+    navigate(`/dashboard/products/delete/${row.id}`);
 };
 
 const columns = [

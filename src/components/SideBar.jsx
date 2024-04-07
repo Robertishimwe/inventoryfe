@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function SideBar() {
   return (
-    <div className="hidden border-r border-gray-200 lg:block dark:border-gray-800">
+    <div className="hidden border-r border-gray-200 lg:block dark:border-gray-800" style={{backgroundImage:"url(../img/green.jpg)"}}>
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="flex h-16 items-center border-b px-6">
           <Link className="flex items-center gap-2 font-semibold" href="#">

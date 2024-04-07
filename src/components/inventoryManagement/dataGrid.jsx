@@ -5,6 +5,8 @@ import { AgGridReact } from 'ag-grid-react';
 import React, { StrictMode, useMemo, useState, useEffect } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { createRoot } from 'react-dom/client';
+import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 import { useAtom } from 'jotai';
 import { inventoryAtom } from "../../utils/atoms";
@@ -92,6 +94,24 @@ const GridExample = () => {
 
   return (
     <div className="ag-theme-quartz gap-4 p-4 md:gap-8 md:p-6" style={{ height: "90vh" }}>
+      {/* <CardHeader className="flex flex-wrap justify-between pb-4">
+            <CardTitle>{title}</CardTitle>
+            {showAddButton && ( */}
+              <div className="flex gap-2">
+                {/* {additionalButtons}
+                <Button className="ml-auto" size="sm" onClick={onAdd}> */}
+                <Button className="ml-auto" size="sm">
+                  Add New
+                </Button>
+              </div>
+          {/* //   )}
+          //   <Input
+          //     placeholder={searchPlaceholder}
+          //     value={searchQuery}
+          //     onChange={handleSearchChange}
+          //     className="ml-auto w-1/2"
+          //   />
+          // </CardHeader> */}
       <AgGridReact
         rowData={inventory}
         columnDefs={columnDefs}

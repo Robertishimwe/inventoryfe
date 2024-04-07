@@ -21,6 +21,7 @@ const GridExample = () => {
         dataFetchUrl = "/api/transaction/getAll";
       }
       const response = await api.get(dataFetchUrl);
+      // console.log(response);
       return transformData(response.data.transactions);
     }
   });
@@ -63,7 +64,7 @@ const GridExample = () => {
   }
 
   if(transactions.length === 0){
-    return <p className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">You have not  sold anything yet</p>;
+    return <p className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">You have not sold anything yet</p>;
   }
 
   if(isError){
