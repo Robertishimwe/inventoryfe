@@ -7,6 +7,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { createRoot } from 'react-dom/client';
 import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom"
 
 import { useAtom } from 'jotai';
 import { inventoryAtom } from "../../utils/atoms";
@@ -35,7 +36,7 @@ const GridExample = () => {
 
     fetchData();
   }, [setInventory]);
-
+  const navigate = useNavigate();
   // function transformData(data) {
   //   return data.map(item => ({
   //     ID: item.id,
@@ -50,7 +51,12 @@ const GridExample = () => {
   //     Last_Re_Stock_Date: `${new Date(item.lastRestockDate).toLocaleString()}`
   //   }));
   // }
+  // onAdd={handleAdd}
    
+  const handleAdd = () => {
+    navigate("/dashboard/inventory/addNew");
+};
+  
   function transformData(data) {
     return data.map(item => ({
       ID: item.id,
@@ -98,9 +104,9 @@ const GridExample = () => {
             <CardTitle>{title}</CardTitle>
             {showAddButton && ( */}
               <div className="flex gap-2">
-                {/* {additionalButtons}
-                <Button className="ml-auto" size="sm" onClick={onAdd}> */}
-                <Button className="ml-auto" size="sm">
+                {/* {additionalButtons} */}
+                <Button className="ml-auto" size="sm" onClick={handleAdd}>
+                {/* <Button className="ml-auto" size="sm"> */}
                   Add New
                 </Button>
               </div>
