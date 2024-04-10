@@ -99,25 +99,12 @@ const GridExample = () => {
   }
 
   return (
-    <div className="ag-theme-quartz gap-4 p-4 md:gap-8 md:p-6" style={{ height: "90vh" }}>
-      {/* <CardHeader className="flex flex-wrap justify-between pb-4">
-            <CardTitle>{title}</CardTitle>
-            {showAddButton && ( */}
-              <div className="flex gap-2">
-                {/* {additionalButtons} */}
-                <Button className="ml-auto" size="sm" onClick={handleAdd}>
-                {/* <Button className="ml-auto" size="sm"> */}
+    <div className="ag-theme-quartz gap-4 p-4 md:gap-8 md:p-6" style={{ height: "89vh" }}>      
+              <div className="flex gap-2 pb-4">                
+                <Button className="ml-auto" size="sm" onClick={handleAdd}>                
                   Add New
                 </Button>
               </div>
-          {/* //   )}
-          //   <Input
-          //     placeholder={searchPlaceholder}
-          //     value={searchQuery}
-          //     onChange={handleSearchChange}
-          //     className="ml-auto w-1/2"
-          //   />
-          // </CardHeader> */}
       <AgGridReact
         rowData={inventory}
         columnDefs={columnDefs}
