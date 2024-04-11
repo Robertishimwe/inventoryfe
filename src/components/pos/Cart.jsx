@@ -58,6 +58,7 @@ function Cart() {
 
   const handleConfirmSell = () => {
     mutate(transformedCartData);
+    console.log(">>>>>",transformedCartData)
   };
   const handleRemoveProduct = (productIndex) => {
     setCart((prevCart) => prevCart.filter((_, index) => index !== productIndex));
