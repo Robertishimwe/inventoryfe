@@ -63,7 +63,7 @@ function InputForm() {
     const availableQuantity = selectedProduct ? selectedProduct.Quantity : 0;
 
     if (selectedProduct && quantity > 0) {
-      if (quantity > availableQuantity) {
+      if (quantity > parseFloat(availableQuantity)) {
         alert(`Only ${availableQuantity} items are available in stock for ${productName}`);
         return;
       }
