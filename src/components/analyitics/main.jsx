@@ -8,12 +8,15 @@ import { CardDescription, CardTitle, CardHeader, CardContent, Card } from "@/com
 import { ResponsiveLine } from "@nivo/line"
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
+// import background from "../../img/green.jpg";
 
 import MostSellingProduct from "./mostSellingProduct"
 
+
+
 export default function Component() {
   return (
-    <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
+    <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6" style={{backgroundColor:"whitesmoke",opacity:"0.7"}}>
 
 
       <h1 className="font-semibold text-lg md:text-xl">Analyitics</h1>
@@ -34,7 +37,7 @@ export default function Component() {
         </Popover>
       </div> */}
       <ScrollArea className="h-1/2 w-full">
-
+{/* <img src={background} alt="rrr" srcset="" /> */}
         <div className="grid gap-4 md:grid-cols-2">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">

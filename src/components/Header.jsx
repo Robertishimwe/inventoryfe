@@ -3,7 +3,7 @@ import { loggedinUserAtom, unitsAtom, categoriesAtom, productsAtom, inventoryAto
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem, DropdownMenuContent, DropdownMenu } from "@/components/ui/dropdown-menu"
-
+import profileavatar from '../img/client.jpg';
 import { useResetAtom } from 'jotai/utils';
 
 function Header() {
@@ -38,7 +38,7 @@ function Header() {
   };
 
   return (
-    <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">
+    <header className="flex h-14 lg:h-[64px] items-center gap-4 border-b bg-gray-100/0 px-6 dark:bg-gray-800/40">
     <Link className="lg:hidden" href="#">
       <Package2Icon className="h-6 w-6" />
       <span className="sr-only">Home</span>
@@ -62,7 +62,7 @@ function Header() {
             alt="Avatar"
             className="rounded-full"
             height="32"
-            src="./green.jpg"
+            src={profileavatar}
             style={{
               aspectRatio: "32/32",
               objectFit: "cover",
