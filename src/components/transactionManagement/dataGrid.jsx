@@ -36,8 +36,8 @@ const GridExample = () => {
     return data.map(item => ({
       ID: item.id,
       Product: item.product?.product_name,
-      Price: parseFloat(item.product?.price),
-      Quantity: parseInt(item.quantity_sold),
+      Price: parseFloat(item?.price),
+      Quantity: parseFloat(item.quantity_sold),
       Transaction_Type: item.transaction_type,
       Done_By: `${item.user?.firstName} ${item.user?.lastName}`,
       Transaction_Time: `${new Date(item.transaction_date).toLocaleString()}`
