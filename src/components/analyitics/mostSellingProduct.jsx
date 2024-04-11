@@ -22,7 +22,7 @@ function toCamelCase(str) {
 
 function MostSellingProduct() {
   const { isLoading, isError, data, error } = useQuery({
-    queryKey: ["categories"],
+    queryKey: ["mostSellingProduct"],
     queryFn: async () => {
       const response = await api.get("/api/dashboard/mostSellingProduct");
       return response?.data?.mostSellingProduct;
