@@ -66,7 +66,7 @@ const GridExample = () => {
 
   const transformData = useMemo(() => {
     return (data) => data.map(item => ({
-      ID: item.id,
+      ID: item.product?.id,
       Product: item.product?.product_name,
       Category: item.product?.productCategory?.name,
       Stock: parseInt(item.quantity),
