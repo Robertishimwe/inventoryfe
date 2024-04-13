@@ -12,6 +12,8 @@ import { useAtom } from 'jotai';
 import { inventoryAtom } from "../../utils/atoms";
 import api from "../../utils/api";
 
+import TopUpPopUp from "./topUp"
+
 const GridExample = () => {
   const [inventory, setInventory] = useAtom(inventoryAtom);
   const [isLoading, setIsLoading] = useState(true);
@@ -55,6 +57,13 @@ const GridExample = () => {
 
     const product = productRef.current.value;
     const quantity = quantityRef.current.value;
+    // {
+    //   "productId": 3,
+    //   "amount": 700,
+    //   "buying_price": 200,
+    //   "selling_price": 250,
+    //   "supplier_id": 2
+    // },
 
     console.log("Product:", product);
     console.log("Quantity:", quantity);
@@ -126,49 +135,79 @@ const GridExample = () => {
         paginationPageSizeSelector={[10, 20, 50, 100, 200, 500, 1000]}
         onCellClicked={(params) => handleTopUpClick(params.data)}
       />
-      {isTopUpPopupOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded shadow-lg z-50 relative">
-            <h2 className="text-lg font-semibold mb-4">Top Up Stock</h2>
-            <form onSubmit={handleTopUpFormSubmit}>
-              {/* Add your form fields here, e.g., a select for choosing the product and an input for the quantity */}
-              <div className="mb-4">
-                <label htmlFor="product" className="block mb-2 font-medium">
-                  Product
-                </label>
-                <input type="text" id="product" ref={productRef} value={selectedInventory?.Product} className="border border-gray-300 p-2 w-full rounded" readOnly />
-              </div>
-              <div className="mb-4">
-                <label htmlFor="quantity" className="block mb-2 font-medium">
-                  Quantity
-                </label>
-                <input type="number" id="quantity" ref={quantityRef} className="border border-gray-300 p-2 w-full rounded" />
-              </div>
+{isTopUpPopupOpen && (
+        <TopUpPopUp
+          setIsTopUpPopupOpen={setIsTopUpPopupOpen}
+          selectedInventory={selectedInventory}
+        />
+      )
+      // (
+      //   <div className="fixed inset-0 flex items-center justify-center z-50">
+      //     <div className="bg-white p-6 rounded shadow-lg z-50 relative">
+      //       <h2 className="text-lg font-semibold mb-4">Top Up Stock</h2>
+      //       <form onSubmit={handleTopUpFormSubmit}>
+      //         {/* Add your form fields here, e.g., a select for choosing the product and an input for the quantity */}
+      //         <div className="mb-4">
+      //           <label htmlFor="product" className="block mb-2 font-medium">
+      //             Product
+      //           </label>
+      //           <input type="text" id="product" ref={productRef} value={selectedInventory?.Product} className="border border-gray-300 p-2 w-full rounded" readOnly />
+      //         </div>
+      //         <div className="mb-4">
+      //           <label htmlFor="supplier" className="block mb-2 font-medium">
+      //             Supplier
+      //           </label>
+      //           <input type="number" id="quantity" ref={quantityRef} className="border border-gray-300 p-2 w-full rounded" />
+      //         </div>
 
-              {/* Add form submit and cancel buttons */}
-              <div className="flex justify-end">
-                <button
-                  type="button"
-                  className="mr-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded"
-                  onClick={() => setIsTopUpPopupOpen(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 rounded"
-                >
-                  Save
-                </button>
-              </div>
-            </form>
-          </div>
-          <div
-            className="fixed inset-0 bg-black opacity-50"
-            onClick={() => setIsTopUpPopupOpen(false)}
-          ></div>
-        </div>
-      )}
+      //         <div className="mb-4">
+      //           <label htmlFor="quantity" className="block mb-2 font-medium">
+      //             Quantity
+      //           </label>
+      //           <input type="number" id="quantity" ref={quantityRef} className="border border-gray-300 p-2 w-full rounded" />
+      //         </div>
+
+      //         <div className="mb-4">
+      //           <label htmlFor="buying_price" className="block mb-2 font-medium">
+      //             Buying Price
+      //           </label>
+      //           <input type="number" id="quantity" ref={quantityRef} className="border border-gray-300 p-2 w-full rounded" />
+      //         </div>
+
+      //         <div className="mb-4">
+      //           <label htmlFor="selling_price" className="block mb-2 font-medium">
+      //             Selling Price
+      //           </label>
+      //           <input type="number" id="quantity" ref={quantityRef} className="border border-gray-300 p-2 w-full rounded" />
+      //         </div>
+
+      //         {/* Add form submit and cancel buttons */}
+      //         <div className="flex justify-end">
+      //           <button
+      //             type="button"
+      //             className="mr-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded"
+      //             onClick={() => setIsTopUpPopupOpen(false)}
+      //           >
+      //             Cancel
+      //           </button>
+      //           <button
+      //             type="submit"
+      //             className="px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 rounded"
+      //           >
+      //             Save
+      //           </button>
+      //         </div>
+      //       </form>
+      //     </div>
+      //     <div
+      //       className="fixed inset-0 bg-black opacity-50"
+      //       onClick={() => setIsTopUpPopupOpen(false)}
+      //     ></div>
+      //   </div>
+      // )
+      
+      
+      }
     </div>
   );
 };
