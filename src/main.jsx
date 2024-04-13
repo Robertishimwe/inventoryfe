@@ -11,11 +11,11 @@ const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
+    <SpeedInsights/>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
       <Toaster />
         <App />
-        <SpeedInsights/>
       </QueryClientProvider>
     </BrowserRouter>
   </React.StrictMode>
