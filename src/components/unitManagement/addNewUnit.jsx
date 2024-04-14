@@ -53,8 +53,8 @@ export default function NewUnit() {
                 type="text"
                 required
               />
-            </label>
-            <Button className="col-span-2" size="sm" type="submit" disabled={isLoading}>
+            </label><br></br>
+            <Button className="col-span-1" size="sm" type="submit" disabled={isLoading}>
               {isLoading ? "Adding..." : "Add Unit"}
             </Button>
           </form>
