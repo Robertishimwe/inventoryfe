@@ -29,8 +29,8 @@ function ReusableTable({
   const filteredData = data.filter((item) =>
     columnMapping.some(({ fieldName }) =>
       item[fieldName]
-        // .toString()
-        // .includes(searchQuery.toString().toLowerCase())
+        .toString()
+        .includes(searchQuery.toString().toLowerCase())
     )
   );
 
