@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
+import background from "../img/green.jpg";
 
 function SideBar() {
   return (
-    <div className="hidden border-r border-gray-200 lg:block dark:border-gray-800" style={{backgroundImage:"url(../img/green.jpg)"}}>
+    <div className="hidden border-r border-gray-200 lg:block dark:border-gray-800">
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="flex h-16 items-center border-b px-6">
           <Link className="flex items-center gap-2 font-semibold" href="#">
@@ -14,14 +15,14 @@ function SideBar() {
           <nav className="grid items-start px-4 text-sm font-medium">
             <Link
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              to="/dashboard"
+              to="/dashboard" style={{color:"#000"}}
             >
               <HomeIcon className="h-4 w-4" />
               Home
             </Link>
             <Link
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              to="/dashboard/pos"
+              to="/dashboard/pos" style={{color:"#000"}}
             >
               <CreditCardIcon className="h-4 w-4" />
               Point of Sale (POS)
@@ -29,49 +30,49 @@ function SideBar() {
             <Link
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
               // className="flex items-center gap-3 rounded-lg bg-gray-100 px-3 py-2 text-gray-900  transition-all hover:text-gray-900 dark:bg-gray-800 dark:text-gray-50 dark:hover:text-gray-50"
-              to="/dashboard/products"
+              to="/dashboard/products" style={{color:"#000"}}
             >
               <PackageIcon className="h-4 w-4" />
               Products
             </Link>
             <Link
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              to="/dashboard/inventory"
+              to="/dashboard/inventory" style={{color:"#000"}}
             >
               <ArchiveIcon className="h-4 w-4" />
               Inventory
             </Link>
             <Link
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              to="/dashboard/users"
+              to="/dashboard/users" style={{color:"#000"}}
             >
               <UsersIcon className="h-4 w-4" />
               Users
             </Link>
             <Link
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              to="/dashboard/categories"
+              to="/dashboard/categories" style={{color:"#000"}}
             >
               <LayersIcon className="h-4 w-4" />
               Categories
             </Link>
             <Link
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              to="/dashboard/units"
+              to="/dashboard/units" style={{color:"#000"}}
             >
               <ScaleIcon className="h-4 w-4" />
               Units
             </Link>
             <Link
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              to="/dashboard/suppliers"
+              to="/dashboard/suppliers" style={{color:"#000"}}
             >
               <TruckIcon className="h-4 w-4" />
               Suppliers
             </Link>
             <Link
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              to="/dashboard/transactions"
+              to="/dashboard/transactions" style={{color:"#000"}}
             >
               <RepeatIcon className="h-4 w-4" />
               Transactions
