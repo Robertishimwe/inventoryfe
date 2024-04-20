@@ -11,6 +11,7 @@ function ReusableTable({
   title,
   searchPlaceholder,
   onAdd,
+  onTopup,
   onEdit,
   onDelete,
   itemsPerPageOptions,
@@ -67,7 +68,8 @@ function ReusableTable({
             {showAddButton && (
               <div className="flex gap-2">
                 {additionalButtons}
-                <Button className="ml-auto" size="sm" onClick={onAdd}>
+                {/* <Button className="ml-auto" size="sm" onClick={onAdd}> */}
+                <Button className="ml-auto" size="sm" onClick={onTopup}>
                   Add New
                 </Button>
               </div>

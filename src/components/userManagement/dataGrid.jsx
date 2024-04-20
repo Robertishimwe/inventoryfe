@@ -1,13 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import { useQuery } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 import { usersAtom } from "../../utils/atoms"; 
 import ReusableTable from '../ReusableTable';
 import api from "../../utils/api"; 
+import TopUpPopUp from "./topUp";
 
 function UserManagement() {
     const [users, setUsers] = useAtom(usersAtom);
+    const [isTopUpPopupOpen, setIsTopUpPopupOpen] = useState(false);
     const navigate = useNavigate();
 
     const { isLoading, isError, data, error } = useQuery({
@@ -34,6 +36,10 @@ function UserManagement() {
         navigate('/dashboard/users/addNew');
     };
 
+    const handleTopUpClick = () => {    
+        setIsTopUpPopupOpen(true);
+      };
+
     const handleEdit = (row) => {
         navigate(`/dashboard/users/edit/${row.id}`);
     };
@@ -52,18 +58,22 @@ function UserManagement() {
       ];
 
     return (
-        <ReusableTable
-            columnMapping={columnMapping}
-            data={users}
-            title="User Management"
-            searchPlaceholder="Search..."
-            onAdd={handleAdd}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            itemsPerPageOptions={[10, 25, 50, 100]}
-            showAddButton={true}
-            showSearchInput={true}
-        />
+        <>
+            <ReusableTable
+                columnMapping={columnMapping}
+                data={users}
+                title="User Management"
+                searchPlaceholder="Search..."
+                onAdd={handleAdd}
+                onTopup={handleTopUpClick}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                itemsPerPageOptions={[10, 25, 50, 100]}
+                showAddButton={true}
+                showSearchInput={true}
+            />
+            {isTopUpPopupOpen && (<TopUpPopUp setIsTopUpPopupOpen={setIsTopUpPopupOpen} />)}
+        </>
     );
 }
 

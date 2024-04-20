@@ -1,9 +1,9 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { useNavigate } from "react-router-dom"
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 import ReusableTable from '../ReusableTable';
-
+import TopUpPopUp from "./topUp";
 import { useAtom } from 'jotai';
 import { unitsAtom } from "../../utils/atoms";
 
@@ -12,7 +12,7 @@ import api from "../../utils/api";
 function DataGrid() {
 
   const [units, setUnits] = useAtom(unitsAtom);
-
+  const [isTopUpPopupOpen, setIsTopUpPopupOpen] = useState(false);
   const navigate = useNavigate();
 
   const { isLoading, isError, data, error } = useQuery({
@@ -33,6 +33,10 @@ function DataGrid() {
 
   const handleAdd = () => {
     navigate("/dashboard/units/addNew");
+};
+
+const handleTopUpClick = () => {    
+  setIsTopUpPopupOpen(true);
 };
 
 const handleEdit = (row) => {
@@ -58,18 +62,22 @@ const columnMapping = [
 ];
 
 return (
-  <ReusableTable
-      columnMapping={columnMapping}
-      data={units}
-      title="Unit Management"
-      searchPlaceholder="Search..."
-      onAdd={handleAdd}
-      onEdit={handleEdit}
-      onDelete={handleDelete}
-      itemsPerPageOptions={[10, 25, 50, 100]}
-      showAddButton={true}
-      showSearchInput={true}
-  />
+  <>  
+    <ReusableTable
+        columnMapping={columnMapping}
+        data={units}
+        title="Unit Management"
+        searchPlaceholder="Search..."
+        onAdd={handleAdd}
+        onTopup={handleTopUpClick}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+        itemsPerPageOptions={[10, 25, 50, 100]}
+        showAddButton={true}
+        showSearchInput={true}
+    />
+     {isTopUpPopupOpen && (<TopUpPopUp setIsTopUpPopupOpen={setIsTopUpPopupOpen} />)}
+  </>
 );
   // return (
   //   <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">

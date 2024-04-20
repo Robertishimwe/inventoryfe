@@ -33,10 +33,10 @@ export default function Login() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex items-center justify-center min-h-screen opacity-80">
       <div className="max-w-md w-full space-y-8 p-4 bg-white shadow-lg rounded-lg">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-800">Inventory Ms Login</h2>
+          <h2 className="text-3xl font-bold text-gray-800">Inventory MS Login</h2>
           <p className="text-gray-500">Enter your credentials to access the system.</p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -67,7 +67,7 @@ export default function Login() {
             />
           </div>
           <button
-            className="w-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-md py-2 transition-colors duration-300 transform hover:from-indigo-600 hover:to-purple-600 focus:outline-none focus:ring focus:ring-indigo-300"
+            className="w-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-md py-2 transition-colors duration-300 transform hover:from-purple-600 hover:to-indigo-600 focus:outline-none focus:ring focus:ring-indigo-300"
             type="submit"
             disabled={isPending}
           >
