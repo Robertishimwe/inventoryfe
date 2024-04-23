@@ -33,7 +33,7 @@ function EditPopUp({ id, setIsEditPopupOpen }) {
 
   const { mutate: editUnit } = useMutation({
     mutationFn: async () => {
-      const response = await api.put(`/api/units/edit/${id}`, {
+      const response = await api.patch(`/api/units/${id}/update`, {
         unit_name: unitName
       });
       setIsEditPopupOpen(false);
