@@ -4,6 +4,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 
 import ReusableTable from '../ReusableTable';
 import TopUpPopUp from "./topUp";
+import EditPopUp from "./editPopUp";
 import { useAtom } from 'jotai';
 import { unitsAtom } from "../../utils/atoms";
 
@@ -13,6 +14,8 @@ function DataGrid() {
 
   const [units, setUnits] = useAtom(unitsAtom);
   const [isTopUpPopupOpen, setIsTopUpPopupOpen] = useState(false);
+  const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
+  const [selectedUnitId, setSelectedUnitId] = useState(null);
   const navigate = useNavigate();
 
   const { isLoading, isError, data, error } = useQuery({
@@ -40,7 +43,10 @@ const handleTopUpClick = () => {
 };
 
 const handleEdit = (row) => {
-    navigate(`/units/edit/${row.id}`);
+    // navigate(`/units/edit/${row.id}`);
+    // navigate(`/dashboard/units/editUnit/${row.id}`);
+    setSelectedUnitId(row.id);    
+    setIsEditPopupOpen(true);
 };
 
 const handleDelete = (row) => {
@@ -77,6 +83,7 @@ return (
         showSearchInput={true}
     />
      {isTopUpPopupOpen && (<TopUpPopUp setIsTopUpPopupOpen={setIsTopUpPopupOpen} />)}
+     {isEditPopupOpen && (<EditPopUp id={selectedUnitId} setIsEditPopupOpen={setIsEditPopupOpen} />)}
   </>
 );
   // return (

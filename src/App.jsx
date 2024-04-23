@@ -12,6 +12,7 @@ import TransactionDataGrid from "./components/transactionManagement/dataGrid";
 import NewProduct from "./components/productManagement/addNewProduct";
 import NewInventory from "./components/inventoryManagement/addNew";
 import NewUnit from "./components/unitManagement/addNewUnit";
+import EditUnit from "./components/unitManagement/editUnit";
 import NewUser from "./components/userManagement/addNewUser";
 import NewSupplier from "./components/supplierManagement/addNewSupplier";
 import NewCategory from "./components/categoryManagement/addNewCategory";
@@ -40,6 +41,7 @@ function App() {
           <Route path="categories/addNew" element={<NewCategory />} />
           <Route path="units" element={<UnitDataGrid />} />
           <Route path="units/addNew" element={<NewUnit />} />
+          <Route path="units/editUnit/:id" element={<EditUnit />} />
           <Route path="suppliers" element={<SupplierDataGrid />} />
           <Route path="suppliers/addNew" element={<NewSupplier />} />
           <Route path="transactions" element={<TransactionDataGrid />} />
