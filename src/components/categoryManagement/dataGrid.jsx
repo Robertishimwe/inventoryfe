@@ -8,6 +8,7 @@ import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card"
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
 import ReusableTable from '../ReusableTable';
 import TopUpPopUp from "./topUp";
+import EditPopUp from "./editPopUp";
 import { useAtom } from 'jotai';
 import { categoriesAtom } from "../../utils/atoms";
 
@@ -18,6 +19,8 @@ function DataGrid() {
   const [categories, setCategories] = useAtom(categoriesAtom);
   const navigate = useNavigate();
   const [isTopUpPopupOpen, setIsTopUpPopupOpen] = useState(false);
+  const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
 
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ['categories'],
@@ -51,12 +54,18 @@ const handleTopUpClick = () => {
 };
 
 const handleEdit = (row) => {
-    navigate(`/categories/edit/${row.id}`);
+    // navigate(`/categories/edit/${row.id}`);
+    setSelectedCategoryId(row.id);    
+    setIsEditPopupOpen(true);
 };
 
 const handleDelete = (row) => {
     navigate(`/categories/delete/${row.id}`);
 };
+
+if (data) {
+  setCategories(data);
+}
 
   const columnMapping = [
     { columnName: "Id", fieldName: "id" },
@@ -80,6 +89,7 @@ const handleDelete = (row) => {
         showSearchInput={true}
     />
    {isTopUpPopupOpen && (<TopUpPopUp setIsTopUpPopupOpen={setIsTopUpPopupOpen} />)}
+   {isEditPopupOpen && (<EditPopUp id={selectedCategoryId} setIsEditPopupOpen={setIsEditPopupOpen} />)}
     </>
   );
 

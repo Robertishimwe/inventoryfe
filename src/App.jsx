@@ -12,10 +12,12 @@ import TransactionDataGrid from "./components/transactionManagement/dataGrid";
 import NewProduct from "./components/productManagement/addNewProduct";
 import NewInventory from "./components/inventoryManagement/addNew";
 import NewUnit from "./components/unitManagement/addNewUnit";
-import EditUnit from "./components/unitManagement/editUnit";
+import EditUnit from "./components/unitManagement/editPopUp";
 import NewUser from "./components/userManagement/addNewUser";
 import NewSupplier from "./components/supplierManagement/addNewSupplier";
+import EditSupplier from "./components/supplierManagement/editPopUp";
 import NewCategory from "./components/categoryManagement/addNewCategory";
+import EditCategory from "./components/supplierManagement/editPopUp";
 import Analyitics from "./components/analyitics/main";
 
 import PrivateRoutes from "./protection/PrivateRoutes";
@@ -39,11 +41,13 @@ function App() {
           <Route path="inventory/addNew" element={<NewInventory />} />
           <Route path="categories" element={<CategoryDataGrid />} />
           <Route path="categories/addNew" element={<NewCategory />} />
+          <Route path="categories/editCategory/:id" element={<EditCategory />} />
           <Route path="units" element={<UnitDataGrid />} />
           <Route path="units/addNew" element={<NewUnit />} />
           <Route path="units/editUnit/:id" element={<EditUnit />} />
           <Route path="suppliers" element={<SupplierDataGrid />} />
           <Route path="suppliers/addNew" element={<NewSupplier />} />
+          <Route path="suppliers/editSupplier/:id" element={<EditSupplier />} />
           <Route path="transactions" element={<TransactionDataGrid />} />
         </Route>
       </Route>
