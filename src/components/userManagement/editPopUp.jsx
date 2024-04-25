@@ -9,12 +9,12 @@ import { categoriesAtom, suppliersAtom, unitsAtom } from "../../utils/atoms";
 import api from "../../utils/api";
 import toast from 'react-hot-toast';
 
-function TopUpPopUp({ setIsTopUpPopupOpen }) {
-  const [suppliers, setSuppliers] = useAtom(suppliersAtom);
+function EditPopUp({ id, setIsEditPopupOpen }) {
+  const [suppliers, setUsers] = useAtom(suppliersAtom);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null);
-  const [selectedSupplier, setSelectedSupplier] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [isSending, setIsSending] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -45,9 +45,9 @@ function TopUpPopUp({ setIsTopUpPopupOpen }) {
     return phoneRegex.test(value) || emailRegex.test(value);
   };
 
-  const { mutate: addUser } = useMutation({
+  const { mutate: editUser } = useMutation({
     mutationFn: async () => {
-      const response = await api.post("/api/auth/register", {
+      const response = await api.patch(`/api/User/${id}/update`, {
         firstName: firstName,
         lastName: lastName,
         email: email,
@@ -55,16 +55,13 @@ function TopUpPopUp({ setIsTopUpPopupOpen }) {
         role: role,
         password: password
       });
+      setIsEditPopupOpen(false);
+      console.log(response.data)
       return response.data;
     },
     onSuccess: () => {
-      toast.success("User added successfully");
-      setFirstName("");
-      setLastName("");
-      setEmail("");
-      setPhone("");
-      setRole("");
-      setPassword("");
+      toast.success("User edited successfully");
+      setUserName("");
       setIsLoading(false);
     },
     onError: (error) => {
@@ -75,10 +72,10 @@ function TopUpPopUp({ setIsTopUpPopupOpen }) {
     },
   });
   
-  const handleTopUpFormSubmit = async (e) => {
+  const handleEditFormSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    addUser();    
+    editUser();    
   };
 
   if (isLoading) {
@@ -96,82 +93,85 @@ function TopUpPopUp({ setIsTopUpPopupOpen }) {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded shadow-lg z-50 relative w-1/3">
-        <h2 className="text-lg font-semibold mb-4">Add New User</h2>
-        <form onSubmit={handleTopUpFormSubmit}>
+        <h2 className="text-lg font-semibold mb-4">Edit User</h2>
+        <form onSubmit={handleEditFormSubmit}>
           {/* Add your form fields here, e.g., a select for choosing the product and an input for the quantity */}
           <div className="mb-4">
-            <label htmlFor="First Name" className="block mb-2 font-medium">
+          <label htmlFor="First Name" className="block mb-2 font-medium">
               <span className="text-sm font-medium">First Name</span>
-              <input
-                  className="input w-full"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  placeholder="Enter first name"
-                  type="text"
-                  required
-                />
             </label>
+            <input
+              className="input w-full"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              placeholder="Enter first name"
+              type="text"
+              required
+            />
             <label htmlFor="Last Name" className="block mb-2 font-medium">
               <span className="text-sm font-medium">Last Name</span>
-              <input
-                  className="input w-full"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  placeholder="Enter last name"
-                  type="text"
-                  required
-                />
             </label>
+            <input
+              className="input w-full"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              placeholder="Enter last name"
+              type="text"
+              required
+            />
             <label htmlFor="Email" className="block mb-2 font-medium">
               <span className="text-sm font-medium">Email</span>
-              <input
-                  className="input w-full"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter email"
-                  type="email"
-                  required
-                />
             </label>
+            <input
+              className="input w-full"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter email"
+              type="email"
+              required
+            />
             <label htmlFor="Phone" className="block mb-2 font-medium">
               <span className="text-sm font-medium">Phone</span>
-              <input
-                  className="input w-full"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="Enter phone"
-                  type="text"
-                  required
-                />
             </label>
+            <input
+                className="input w-full"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="Enter phone"
+                type="text"
+                required
+              />
             <label htmlFor="Role" className="block mb-2 font-medium">
               <span className="text-sm font-medium">Role</span>
-              <select
-                  className="input w-full"
-                  value={role}
-                  onChange={(e) => setRole(e.target.value)}
-                  required
-                >
-                  <option value="">Select role</option>
-                  <option value="employee">Employee</option>
-                  <option value="admin">Admin</option>
-                  <option value="manager">Manager</option>
-                </select>
             </label>
+            <select
+                className="input w-full"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                required
+              >
+              <option value="">Select role</option>
+              <option value="employee">Employee</option>
+              <option value="admin">Admin</option>
+              <option value="manager">Manager</option>
+            </select>
             <label htmlFor="Password" className="block mb-2 font-medium">
               <span className="text-sm font-medium">Password</span>
-              <input
-                  className="input w-full"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter password"
-                  type="password"
-                  required
-                />
             </label>
-              {contact && !validateContact(contact) && (
-                <span className="text-xs text-red-500">Invalid contact format. Please enter a valid phone number or email.</span>
-              )}
+            <input
+                className="input w-full"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter password"
+                type="password"
+                required
+              />
+            {phone && !validateContact(phone) && (
+              <span className="text-xs text-red-500">Invalid contact format. Please enter a valid phone number.</span>
+            )}
+            {email && !validateContact(email) && (
+              <span className="text-xs text-red-500">Invalid contact format. Please enter a valid email.</span>
+            )}
           </div>         
 
           {/* Add form submit and cancel buttons */}
@@ -179,7 +179,7 @@ function TopUpPopUp({ setIsTopUpPopupOpen }) {
             <button
               type="button"
               className="mr-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded"
-              onClick={() => setIsTopUpPopupOpen(false)}
+              onClick={() => setIsEditPopupOpen(false)}
             >
               Cancel
             </button>
@@ -195,13 +195,13 @@ function TopUpPopUp({ setIsTopUpPopupOpen }) {
       </div>
       <div
         className="fixed inset-0 bg-black opacity-50"
-        onClick={() => setIsTopUpPopupOpen(false)}
+        onClick={() => setIsEditPopupOpen(false)}
       ></div>
     </div>
   );
 }
 
-export default TopUpPopUp;
+export default EditPopUp;
 
 
 
@@ -240,13 +240,13 @@ export default TopUpPopUp;
 // import { categoriesAtom, suppliersAtom, unitsAtom } from "../../utils/atoms";
 // import api from "../../utils/api";
 
-// function TopUpPopUp({ setIsTopUpPopupOpen, selectedInventory }) {
+// function EditPopUp({ setIsEditPopupOpen, selectedInventory }) {
 
-//     const [suppliers, setSuppliers] = useAtom(suppliersAtom);
+//     const [suppliers, setUsers] = useAtom(suppliersAtom);
 //     const [isLoading, setIsLoading] = useState(true);
 //     const [isError, setIsError] = useState(false);
 //     const [error, setError] = useState(null);
-//     const [selectedSupplier, setSelectedSupplier] = useState(null);
+//     const [selectedUser, setSelectedUser] = useState(null);
 
 //     const productRef = useRef(null);
 //     const quantityRef = useRef(null);
@@ -256,8 +256,8 @@ export default TopUpPopUp;
 //     useEffect(() => {
 //       const fetchData = async () => {
 //         try {
-//           const response = await api.get("/api/Supplier/getAll");
-//           setSuppliers(response.data.suppliers);
+//           const response = await api.get("/api/User/getAll");
+//           setUsers(response.data.suppliers);
 //           setIsLoading(false);
 //         } catch (error) {
 //           setIsError(true);
@@ -268,7 +268,7 @@ export default TopUpPopUp;
 //       fetchData();
 //     }, []);
 
-//     const handleTopUpFormSubmit = async (event) => {
+//     const handleEditFormSubmit = async (event) => {
 //       event.preventDefault();
 
 //       const product = selectedInventory.ID;
@@ -280,11 +280,11 @@ export default TopUpPopUp;
 //       console.log("Quantity:", quantity);
 //       console.log("Buying Price:", buyingPrice);
 //       console.log("Selling Price:", sellingPrice);
-//       console.log("Supplier:", selectedSupplier);
+//       console.log("User:", selectedUser);
 
 //       // Your form submission logic here, e.g., making an API request to update the stock
 
-//       setIsTopUpPopupOpen(false);
+//       setIsEditPopupOpen(false);
 //     };
 
 //     if (isLoading) {
@@ -303,7 +303,7 @@ export default TopUpPopUp;
 //     <div className="fixed inset-0 flex items-center justify-center z-50">
 //       <div className="bg-white p-6 rounded shadow-lg z-50 relative">
 //         <h2 className="text-lg font-semibold mb-4">Top Up Stock</h2>
-//         <form onSubmit={handleTopUpFormSubmit}>
+//         <form onSubmit={handleEditFormSubmit}>
 //           {/* Add your form fields here, e.g., a select for choosing the product and an input for the quantity */}
 //           <div className="mb-4">
 //             <label htmlFor="product" className="block mb-2 font-medium">
@@ -320,12 +320,12 @@ export default TopUpPopUp;
 //           </div>
 //           <div className="mb-4">
 //             <label htmlFor="supplier" className="block mb-2 font-medium">
-//               Supplier
+//               User
 //             </label>
 //             <select
 //               id="supplier"
-//               value={selectedSupplier}
-//               onChange={(e) => setSelectedSupplier(e.target.value)}
+//               value={selectedUser}
+//               onChange={(e) => setSelectedUser(e.target.value)}
 //               className="border border-gray-300 p-2 w-full rounded"
 //             >
 //               <option value="">Select a supplier</option>
@@ -389,7 +389,7 @@ export default TopUpPopUp;
 //             <button
 //               type="button"
 //               className="mr-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded"
-//               onClick={() => setIsTopUpPopupOpen(false)}
+//               onClick={() => setIsEditPopupOpen(false)}
 //             >
 //               Cancel
 //             </button>
@@ -404,10 +404,10 @@ export default TopUpPopUp;
 //       </div>
 //       <div
 //         className="fixed inset-0 bg-black opacity-50"
-//         onClick={() => setIsTopUpPopupOpen(false)}
+//         onClick={() => setIsEditPopupOpen(false)}
 //       ></div>
 //     </div>
 //   );
 // }
 
-// export default TopUpPopUp;
+// export default EditPopUp;

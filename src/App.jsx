@@ -14,6 +14,7 @@ import NewInventory from "./components/inventoryManagement/addNew";
 import NewUnit from "./components/unitManagement/addNewUnit";
 import EditUnit from "./components/unitManagement/editPopUp";
 import NewUser from "./components/userManagement/addNewUser";
+import EditUser from "./components/userManagement/editPopUp";
 import NewSupplier from "./components/supplierManagement/addNewSupplier";
 import EditSupplier from "./components/supplierManagement/editPopUp";
 import NewCategory from "./components/categoryManagement/addNewCategory";
@@ -34,6 +35,7 @@ function App() {
           <Route index element={<Analyitics />} />
           <Route path="users" element={<UserManagement />} />
           <Route path="users/addNew" element={<NewUser />} />
+          <Route path="users/editUser/:id" element={<EditUser />} />
           <Route path="pos" element={<Pos />} />
           <Route path="products" element={<DataGrid />} />
           <Route path="products/addNew" element={<NewProduct />} />

@@ -6,10 +6,13 @@ import { usersAtom } from "../../utils/atoms";
 import ReusableTable from '../ReusableTable';
 import api from "../../utils/api"; 
 import TopUpPopUp from "./topUp";
+import EditPopUp from "./editPopUp";
 
 function UserManagement() {
     const [users, setUsers] = useAtom(usersAtom);
     const [isTopUpPopupOpen, setIsTopUpPopupOpen] = useState(false);
+    const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
+    const [selectedUserId, setSelectedUserId] = useState(null);
     const navigate = useNavigate();
 
     const { isLoading, isError, data, error } = useQuery({
@@ -41,7 +44,9 @@ function UserManagement() {
       };
 
     const handleEdit = (row) => {
-        navigate(`/dashboard/users/edit/${row.id}`);
+        // navigate(`/dashboard/users/edit/${row.id}`);
+        setSelectedUserId(row.id);    
+        setIsEditPopupOpen(true);
     };
   
     const handleDelete = (row) => {
@@ -72,7 +77,8 @@ function UserManagement() {
                 showAddButton={true}
                 showSearchInput={true}
             />
-            {isTopUpPopupOpen && (<TopUpPopUp setIsTopUpPopupOpen={setIsTopUpPopupOpen} />)}
+            {isTopUpPopupOpen && (<TopUpPopUp setIsTopUpPopupOpen={setIsTopUpPopupOpen} />)}            
+            {isEditPopupOpen && (<EditPopUp id={selectedUserId} setIsEditPopupOpen={setIsEditPopupOpen} />)}
         </>
     );
 }
