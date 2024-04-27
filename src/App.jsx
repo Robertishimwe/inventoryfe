@@ -10,6 +10,7 @@ import InventoryDataGrid from "./components/inventoryManagement/dataGrid";
 import SupplierDataGrid from "./components/supplierManagement/dataGrid2";
 import TransactionDataGrid from "./components/transactionManagement/dataGrid";
 import NewProduct from "./components/productManagement/addNewProduct";
+import EditProduct from "./components/productManagement/editPopUp";
 import NewInventory from "./components/inventoryManagement/addNew";
 import NewUnit from "./components/unitManagement/addNewUnit";
 import EditUnit from "./components/unitManagement/editPopUp";
@@ -39,6 +40,7 @@ function App() {
           <Route path="pos" element={<Pos />} />
           <Route path="products" element={<DataGrid />} />
           <Route path="products/addNew" element={<NewProduct />} />
+          <Route path="products/editProduct/:id" element={<EditProduct />} />
           <Route path="inventory" element={<InventoryDataGrid />} />
           <Route path="inventory/addNew" element={<NewInventory />} />
           <Route path="categories" element={<CategoryDataGrid />} />

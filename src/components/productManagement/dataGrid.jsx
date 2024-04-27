@@ -8,10 +8,13 @@ import { productsAtom } from "../../utils/atoms";
 import api from "../../utils/api";
 import ReusableTable from '../ReusableTable';
 import TopUpPopUp from "./topUp";
+import EditPopUp from "./editPopUp";
 
 function DataGrid() {
   const [products, setProducts] = useAtom(productsAtom);
   const [isTopUpPopupOpen, setIsTopUpPopupOpen] = useState(false);
+  const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState(null);
   const navigate = useNavigate();
 
   const { isLoading, isError, data, error } = useQuery({
@@ -46,7 +49,9 @@ const handleTopUpClick = () => {
 };
 
 const handleEdit = (row) => {
-    navigate(`/dashboard/products/edit/${row.id}`);
+    // navigate(`/dashboard/products/edit/${row.id}`);
+        setSelectedProductId(row.id);    
+        setIsEditPopupOpen(true);
 };
 
 const handleDelete = (row) => {
@@ -104,6 +109,7 @@ const columnMapping = [
           // ]}
       />
       {isTopUpPopupOpen && (<TopUpPopUp setIsTopUpPopupOpen={setIsTopUpPopupOpen} />)}
+      {isEditPopupOpen && (<EditPopUp id={selectedProductId} setIsEditPopupOpen={setIsEditPopupOpen} />)}
     </>
 );
 

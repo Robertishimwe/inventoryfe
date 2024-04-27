@@ -3,25 +3,28 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
 import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom"
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useAtom } from 'jotai';
 import { categoriesAtom, suppliersAtom, unitsAtom } from "../../utils/atoms";
 import api from "../../utils/api";
 import toast from 'react-hot-toast';
 
 function EditPopUp({ id, setIsEditPopupOpen }) {
-  const [suppliers, setUsers] = useAtom(suppliersAtom);
+  // const [suppliers, setProducts] = useAtom(suppliersAtom);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [isSending, setIsSending] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [role, setRole] = useState("");
-  const [password, setPassword] = useState("");
+  const [productName, setProductName] = useState("");
+  const [description, setDescription] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+  const [supplierId, setSupplierId] = useState("");
+  const [unitId, setUnitId] = useState("");
+  const [price, setPrice] = useState("");
+  const [categories, setCategories] = useAtom(categoriesAtom);
+  const [suppliers, setSuppliers] = useAtom(suppliersAtom);
+  const [units, setUnits] = useAtom(unitsAtom);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,40 +39,32 @@ function EditPopUp({ id, setIsEditPopupOpen }) {
     fetchData();
   }, []);
 
-  const validateContact = (value) => {
-    // Regular expression to match phone number format: 0787885197
-    const phoneRegex = /^(078|079|072|073)\d{7}$/;
-    // Regular expression to match email format
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    // Check if the value matches either phone number or email format
-    return phoneRegex.test(value) || emailRegex.test(value);
-  };
-
-  const { mutate: editUser } = useMutation({
+  const { mutate: editProduct } = useMutation({
     mutationFn: async () => {
-      const response = await api.patch(`/api/User/${id}/update`, {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        phone: phone,
-        role: role,
-        password: password
+      const response = await api.patch(`/api/product/update/${id}`, {
+        product_name: productName,
+        description: description,
+        category: categoryId,
+        supplier_id: supplierId,
+        unit_id: unitId,
+        price: price,
       });
       setIsEditPopupOpen(false);
       console.log(response.data)
       return response.data;
     },
     onSuccess: () => {
-      toast.success("User edited successfully");
-      setFirstName("");
-      setLastName("");
-      setEmail("");
-      setPhone("");
-      setRole("");
-      setPassword("");
+      toast.success("Product edited successfully");
+      setProductName("");
+      setDescription("");
+      setCategoryId("");
+      setSupplierId("");
+      setUnitId("");
+      setPrice("");
       setIsLoading(false);
     },
     onError: (error) => {
+      console.log(error)
       toast.error(`${error?.response?.data?.error}`, {
         duration: 9000,
         position: 'top-center'});
@@ -80,8 +75,35 @@ function EditPopUp({ id, setIsEditPopupOpen }) {
   const handleEditFormSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    editUser();    
+    editProduct();    
   };
+
+  const { isLoading: dataLoading, data } = useQuery({
+    queryKey: "data",
+    queryFn: async () => {
+      const [categoriesRes, suppliersRes, unitsRes] = await Promise.all([
+        api.get("/api/category/getAll"),
+        api.get("/api/Supplier/getAll"),
+        api.get("/api/units/getAll")
+      ]);
+      return { categories: categoriesRes.data.categories, suppliers: suppliersRes.data.suppliers, units: unitsRes.data.units };
+    },
+    staleTime: Infinity, // Data is considered fresh forever
+    cacheTime: Infinity, // Data is kept in the cache forever
+    onSuccess: (data) => {
+      setCategories(data.categories);
+      setSuppliers(data.suppliers);
+      setUnits(data.units);
+    }
+  });
+
+  useEffect(() => {
+    if (data) {
+      setCategories(data.categories);
+      setSuppliers(data.suppliers);
+      setUnits(data.units);
+    }
+  }, [data]);
 
   if (isLoading) {
     return (
@@ -98,85 +120,85 @@ function EditPopUp({ id, setIsEditPopupOpen }) {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded shadow-lg z-50 relative w-1/3">
-        <h2 className="text-lg font-semibold mb-4">Edit User</h2>
+        <h2 className="text-lg font-semibold mb-4">Edit Product</h2>
         <form onSubmit={handleEditFormSubmit}>
           {/* Add your form fields here, e.g., a select for choosing the product and an input for the quantity */}
           <div className="mb-4">
-          <label htmlFor="First Name" className="block mb-2 font-medium">
-              <span className="text-sm font-medium">First Name</span>
-            </label>
-            <input
-              className="input w-full"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              placeholder="Enter first name"
-              type="text"
-              required
-            />
-            <label htmlFor="Last Name" className="block mb-2 font-medium">
-              <span className="text-sm font-medium">Last Name</span>
-            </label>
-            <input
-              className="input w-full"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              placeholder="Enter last name"
-              type="text"
-              required
-            />
-            <label htmlFor="Email" className="block mb-2 font-medium">
-              <span className="text-sm font-medium">Email</span>
-            </label>
-            <input
-              className="input w-full"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter email"
-              type="email"
-              required
-            />
-            <label htmlFor="Phone" className="block mb-2 font-medium">
-              <span className="text-sm font-medium">Phone</span>
+          <label htmlFor="product" className="block mb-2 font-medium">
+              <span className="text-sm font-medium">Product Name</span>
             </label>
             <input
                 className="input w-full"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="Enter phone"
+                value={productName}
+                onChange={(e) => setProductName(e.target.value)}
+                placeholder="Enter product name"
                 type="text"
                 required
               />
-            <label htmlFor="Role" className="block mb-2 font-medium">
-              <span className="text-sm font-medium">Role</span>
+            <label htmlFor="Description" className="block mb-2 font-medium">
+              <span className="text-sm font-medium">Description</span>
+            </label>
+            <textarea
+              className="input w-full"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Enter product description"
+            />
+            <label htmlFor="Category" className="block mb-2 font-medium">
+              <span className="text-sm font-medium">Category</span>
             </label>
             <select
-                className="input w-full"
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-                required
-              >
-              <option value="">Select role</option>
-              <option value="employee">Employee</option>
-              <option value="admin">Admin</option>
-              <option value="manager">Manager</option>
+              className="input w-full"
+              value={categoryId}
+              onChange={(e) => setCategoryId(e.target.value)}
+            >
+              <option>Select Category</option>
+              {categories?.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
             </select>
-            <label htmlFor="Password" className="block mb-2 font-medium">
-              <span className="text-sm font-medium">Password</span>
+            <label htmlFor="Supplier" className="block mb-2 font-medium">
+              <span className="text-sm font-medium">Supplier</span>
+            </label>
+            <select
+              className="input w-full"
+              value={supplierId}
+              onChange={(e) => setSupplierId(e.target.value)}
+            >
+              <option>Select Supplier</option>
+              {suppliers?.map((supplier) => (
+                <option key={supplier.id} value={supplier.id}>
+                  {supplier.supplierName}
+                </option>
+              ))}
+            </select>
+            <label htmlFor="Unit" className="block mb-2 font-medium">
+              <span className="text-sm font-medium">Unit</span>
+            </label>
+            <select
+              className="input w-full"
+              value={unitId}
+              onChange={(e) => setUnitId(e.target.value)}
+            >
+              <option>Select Unit</option>
+              {units?.map((unit) => (
+                <option key={unit.id} value={unit.id}>
+                  {unit.unit_name}
+                </option>
+              ))}
+            </select>
+            <label htmlFor="Price(frw)" className="block mb-2 font-medium">
+              <span className="text-sm font-medium">Price(frw)</span>
             </label>
             <input
-                className="input w-full"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter password"
-                type="password"
-                required
-              />
-            {phone && !validateContact(phone) && (
-              <span className="text-xs text-red-500">Invalid contact format. Please enter a valid phone number.</span>
-            )}
-            {email && !validateContact(email) && (
-              <span className="text-xs text-red-500">Invalid contact format. Please enter a valid email.</span>
-            )}
+              className="input w-full"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              placeholder="Enter price"
+              type="text"
+            />
           </div>         
 
           {/* Add form submit and cancel buttons */}
@@ -247,11 +269,11 @@ export default EditPopUp;
 
 // function EditPopUp({ setIsEditPopupOpen, selectedInventory }) {
 
-//     const [suppliers, setUsers] = useAtom(suppliersAtom);
+//     const [suppliers, setProducts] = useAtom(suppliersAtom);
 //     const [isLoading, setIsLoading] = useState(true);
 //     const [isError, setIsError] = useState(false);
 //     const [error, setError] = useState(null);
-//     const [selectedUser, setSelectedUser] = useState(null);
+//     const [selectedProduct, setSelectedProduct] = useState(null);
 
 //     const productRef = useRef(null);
 //     const quantityRef = useRef(null);
@@ -261,8 +283,8 @@ export default EditPopUp;
 //     useEffect(() => {
 //       const fetchData = async () => {
 //         try {
-//           const response = await api.get("/api/User/getAll");
-//           setUsers(response.data.suppliers);
+//           const response = await api.get("/api/Product/getAll");
+//           setProducts(response.data.suppliers);
 //           setIsLoading(false);
 //         } catch (error) {
 //           setIsError(true);
@@ -285,7 +307,7 @@ export default EditPopUp;
 //       console.log("Quantity:", quantity);
 //       console.log("Buying Price:", buyingPrice);
 //       console.log("Selling Price:", sellingPrice);
-//       console.log("User:", selectedUser);
+//       console.log("Product:", selectedProduct);
 
 //       // Your form submission logic here, e.g., making an API request to update the stock
 
@@ -325,12 +347,12 @@ export default EditPopUp;
 //           </div>
 //           <div className="mb-4">
 //             <label htmlFor="supplier" className="block mb-2 font-medium">
-//               User
+//               Product
 //             </label>
 //             <select
 //               id="supplier"
-//               value={selectedUser}
-//               onChange={(e) => setSelectedUser(e.target.value)}
+//               value={selectedProduct}
+//               onChange={(e) => setSelectedProduct(e.target.value)}
 //               className="border border-gray-300 p-2 w-full rounded"
 //             >
 //               <option value="">Select a supplier</option>
