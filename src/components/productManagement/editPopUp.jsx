@@ -21,7 +21,7 @@ function EditPopUp({ id, setIsEditPopupOpen }) {
   const [categoryId, setCategoryId] = useState("");
   const [supplierId, setSupplierId] = useState("");
   const [unitId, setUnitId] = useState("");
-  const [price, setPrice] = useState("");
+  // const [price, setPrice] = useState("");
   const [categories, setCategories] = useAtom(categoriesAtom);
   const [suppliers, setSuppliers] = useAtom(suppliersAtom);
   const [units, setUnits] = useAtom(unitsAtom);
@@ -46,8 +46,8 @@ function EditPopUp({ id, setIsEditPopupOpen }) {
         description: description,
         category: categoryId,
         supplier_id: supplierId,
-        unit_id: unitId,
-        price: price,
+        unit_id: unitId
+        // price: price,
       });
       setIsEditPopupOpen(false);
       console.log(response.data)
@@ -189,7 +189,7 @@ function EditPopUp({ id, setIsEditPopupOpen }) {
                 </option>
               ))}
             </select>
-            <label htmlFor="Price(frw)" className="block mb-2 font-medium">
+            {/* <label htmlFor="Price(frw)" className="block mb-2 font-medium">
               <span className="text-sm font-medium">Price(frw)</span>
             </label>
             <input
@@ -198,7 +198,7 @@ function EditPopUp({ id, setIsEditPopupOpen }) {
               onChange={(e) => setPrice(e.target.value)}
               placeholder="Enter price"
               type="text"
-            />
+            /> */}
           </div>         
 
           {/* Add form submit and cancel buttons */}

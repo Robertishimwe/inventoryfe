@@ -186,7 +186,7 @@ function TopUpPopUp({ setIsTopUpPopupOpen }) {
                 </option>
               ))}
             </select>
-            <label htmlFor="Price(frw)" className="block mb-2 font-medium">
+            {/* <label htmlFor="Price(frw)" className="block mb-2 font-medium">
               <span className="text-sm font-medium">Price(frw)</span>
             </label>
             <input
@@ -195,7 +195,7 @@ function TopUpPopUp({ setIsTopUpPopupOpen }) {
               onChange={(e) => setPrice(e.target.value)}
               placeholder="Enter price"
               type="text"
-            />
+            /> */}
           </div>         
 
           {/* Add form submit and cancel buttons */}
