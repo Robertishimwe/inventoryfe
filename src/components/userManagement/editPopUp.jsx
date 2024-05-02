@@ -135,6 +135,9 @@ function EditPopUp({ id, setIsEditPopupOpen }) {
               type="email"
               required
             />
+            {email && !validateContact(email) && (
+              <span className="text-xs text-red-500">Invalid contact format. Please enter a valid email.</span>
+            )}
             <label htmlFor="Phone" className="block mb-2 font-medium">
               <span className="text-sm font-medium">Phone</span>
             </label>
@@ -146,6 +149,9 @@ function EditPopUp({ id, setIsEditPopupOpen }) {
                 type="text"
                 required
               />
+               {phone && !validateContact(phone) && (
+                  <span className="text-xs text-red-500">Invalid contact format. Please enter a valid phone number.</span>
+                )}
             <label htmlFor="Role" className="block mb-2 font-medium">
               <span className="text-sm font-medium">Role</span>
             </label>
@@ -160,7 +166,7 @@ function EditPopUp({ id, setIsEditPopupOpen }) {
               <option value="admin">Admin</option>
               <option value="manager">Manager</option>
             </select>
-            <label htmlFor="Password" className="block mb-2 font-medium">
+            {/* <label htmlFor="Password" className="block mb-2 font-medium">
               <span className="text-sm font-medium">Password</span>
             </label>
             <input
@@ -170,13 +176,7 @@ function EditPopUp({ id, setIsEditPopupOpen }) {
                 placeholder="Enter password"
                 type="password"
                 required
-              />
-            {phone && !validateContact(phone) && (
-              <span className="text-xs text-red-500">Invalid contact format. Please enter a valid phone number.</span>
-            )}
-            {email && !validateContact(email) && (
-              <span className="text-xs text-red-500">Invalid contact format. Please enter a valid email.</span>
-            )}
+              />                        */}
           </div>         
 
           {/* Add form submit and cancel buttons */}

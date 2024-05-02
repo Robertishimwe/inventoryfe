@@ -124,6 +124,7 @@ function TopUpPopUp({ setIsTopUpPopupOpen }) {
             </label>
             <label htmlFor="Email" className="block mb-2 font-medium">
               <span className="text-sm font-medium">Email</span>
+            </label>
               <input
                   className="input w-full"
                   value={email}
@@ -132,9 +133,12 @@ function TopUpPopUp({ setIsTopUpPopupOpen }) {
                   type="email"
                   required
                 />
-            </label>
+                {email && !validateContact(email) && (
+                  <span className="text-xs text-red-500">Invalid email format. Please enter a valid email.</span>
+                )}
             <label htmlFor="Phone" className="block mb-2 font-medium">
               <span className="text-sm font-medium">Phone</span>
+            </label>
               <input
                   className="input w-full"
                   value={phone}
@@ -143,9 +147,12 @@ function TopUpPopUp({ setIsTopUpPopupOpen }) {
                   type="text"
                   required
                 />
-            </label>
+                {phone && !validateContact(phone) && (
+                  <span className="text-xs text-red-500">Invalid phone format. Please enter a valid phone number.</span>
+                )}
             <label htmlFor="Role" className="block mb-2 font-medium">
               <span className="text-sm font-medium">Role</span>
+            </label>
               <select
                   className="input w-full"
                   value={role}
@@ -157,7 +164,6 @@ function TopUpPopUp({ setIsTopUpPopupOpen }) {
                   <option value="admin">Admin</option>
                   <option value="manager">Manager</option>
                 </select>
-            </label>
             <label htmlFor="Password" className="block mb-2 font-medium">
               <span className="text-sm font-medium">Password</span>
               <input
@@ -168,10 +174,7 @@ function TopUpPopUp({ setIsTopUpPopupOpen }) {
                   type="password"
                   required
                 />
-            </label>
-              {contact && !validateContact(contact) && (
-                <span className="text-xs text-red-500">Invalid contact format. Please enter a valid phone number or email.</span>
-              )}
+            </label>                            
           </div>         
 
           {/* Add form submit and cancel buttons */}
