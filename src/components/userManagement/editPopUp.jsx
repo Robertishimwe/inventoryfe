@@ -3,7 +3,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
 import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom"
-import { useMutation } from "@tanstack/react-query";
+import { useMutation,useQuery } from "@tanstack/react-query";
 import { useAtom } from 'jotai';
 import { categoriesAtom, suppliersAtom, unitsAtom } from "../../utils/atoms";
 import api from "../../utils/api";
@@ -21,12 +21,17 @@ function EditPopUp({ id, setIsEditPopupOpen }) {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [role, setRole] = useState("");
-  const [password, setPassword] = useState("");
+  // const [password, setPassword] = useState("");
+  const [fetchedUser, setFetchedUser] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(false);
+        const response = await api.get(`/api/user/${id}`);
+        // console.log(response.data.firstName);
+        setFetchedUser(response.data)        
+        return response?.data;
       } catch (error) {
         setIsError(true);
         setError(error);
@@ -52,8 +57,8 @@ function EditPopUp({ id, setIsEditPopupOpen }) {
         lastName: lastName,
         email: email,
         phone: phone,
-        role: role,
-        password: password
+        role: role
+        // password: password
       });
       setIsEditPopupOpen(false);
       console.log(response.data)
@@ -95,6 +100,9 @@ function EditPopUp({ id, setIsEditPopupOpen }) {
     return <p>Error: {error.message}</p>;
   }
 
+
+  /// to be deleted
+  console.log("+++++",fetchedUser)
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded shadow-lg z-50 relative w-1/3">
@@ -107,6 +115,7 @@ function EditPopUp({ id, setIsEditPopupOpen }) {
             </label>
             <input
               className="input w-full"
+              // defaultValue={fetchedUser.firstName}
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               placeholder="Enter first name"
