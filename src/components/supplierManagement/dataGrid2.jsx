@@ -1,14 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import { useQuery } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 import { suppliersAtom } from "../../utils/atoms"; // Import the suppliers atom
 import api from "../../utils/api"; // Import the API utility
-
+import TopUpPopUp from "./topUp";
+import EditPopUp from "./editPopUp";
 import ReusableTable from '../ReusableTable';
 
 function SupplierDataGrid() {
     const [suppliers, setSuppliers] = useAtom(suppliersAtom);
+    const [isTopUpPopupOpen, setIsTopUpPopupOpen] = useState(false);
+    const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
+    const [selectedSupplierId, setSelectedSupplierId] = useState(null);
     const navigate = useNavigate();
 
     const { isLoading, isError, data, error } = useQuery({
@@ -35,8 +39,14 @@ function SupplierDataGrid() {
         navigate("/dashboard/suppliers/addNew");
     };
 
+    const handleTopUpClick = () => {    
+        setIsTopUpPopupOpen(true);
+      };
+
     const handleEdit = (row) => {
-        navigate(`/supplier/edit/${row.id}`);
+        // navigate(`/dashboard/supplier/edit/${row.id}`);
+        setSelectedSupplierId(row.id);    
+        setIsEditPopupOpen(true);
     };
   
     const handleDelete = (row) => {
@@ -51,6 +61,9 @@ function SupplierDataGrid() {
         // Implement export logic here
     };
 
+    if (data) {
+      setSuppliers(data);
+    }
 
     const columnMapping = [
         { columnName: "Id", fieldName: "id" },
@@ -59,26 +72,31 @@ function SupplierDataGrid() {
       ];
 
     return (
-        <ReusableTable
-            columnMapping={columnMapping}
-            data={suppliers}
-            title="Supplier Management"
-            searchPlaceholder="Search..."
-            onAdd={handleAdd}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            itemsPerPageOptions={[10, 25, 50, 100]}
-            showAddButton={true}
-            showSearchInput={true}
-            // additionalButtons={[
-            //     <Button key="import-btn" variant="ghost">
-            //         Import
-            //     </Button>,
-            //     <Button key="export-btn" variant="ghost">
-            //         Export
-            //     </Button>,
-            // ]}
-        />
+        <>
+            <ReusableTable
+                columnMapping={columnMapping}
+                data={suppliers}
+                title="Supplier Management"
+                searchPlaceholder="Search..."
+                onAdd={handleAdd}
+                onTopup={handleTopUpClick}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                itemsPerPageOptions={[10, 25, 50, 100]}
+                showAddButton={true}
+                showSearchInput={true}
+                // additionalButtons={[
+                //     <Button key="import-btn" variant="ghost">
+                //         Import
+                //     </Button>,
+                //     <Button key="export-btn" variant="ghost">
+                //         Export
+                //     </Button>,
+                // ]}
+            />
+            {isTopUpPopupOpen && (<TopUpPopUp setIsTopUpPopupOpen={setIsTopUpPopupOpen} />)}
+            {isEditPopupOpen && (<EditPopUp id={selectedSupplierId} setIsEditPopupOpen={setIsEditPopupOpen} />)}
+        </>
     );
 }
 

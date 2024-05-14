@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useNavigate } from "react-router-dom"
@@ -7,7 +7,8 @@ import { DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator, Dropdown
 import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card"
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
 import ReusableTable from '../ReusableTable';
-
+import TopUpPopUp from "./topUp";
+import EditPopUp from "./editPopUp";
 import { useAtom } from 'jotai';
 import { categoriesAtom } from "../../utils/atoms";
 
@@ -17,6 +18,9 @@ function DataGrid() {
 
   const [categories, setCategories] = useAtom(categoriesAtom);
   const navigate = useNavigate();
+  const [isTopUpPopupOpen, setIsTopUpPopupOpen] = useState(false);
+  const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
 
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ['categories'],
@@ -45,13 +49,23 @@ function DataGrid() {
     navigate("/dashboard/categories/addNew");
 };
 
+const handleTopUpClick = () => {    
+  setIsTopUpPopupOpen(true);
+};
+
 const handleEdit = (row) => {
-    navigate(`/categories/edit/${row.id}`);
+    // navigate(`/categories/edit/${row.id}`);
+    setSelectedCategoryId(row.id);    
+    setIsEditPopupOpen(true);
 };
 
 const handleDelete = (row) => {
     navigate(`/categories/delete/${row.id}`);
 };
+
+if (data) {
+  setCategories(data);
+}
 
   const columnMapping = [
     { columnName: "Id", fieldName: "id" },
@@ -60,18 +74,23 @@ const handleDelete = (row) => {
   ];
   
   return (
+    <>
     <ReusableTable
         columnMapping={columnMapping}
         data={categories}
         title="Category Management"
         searchPlaceholder="Search..."
         onAdd={handleAdd}
+        onTopup={handleTopUpClick}
         onEdit={handleEdit}
         onDelete={handleDelete}
         itemsPerPageOptions={[10, 25, 50, 100]}
         showAddButton={true}
         showSearchInput={true}
     />
+   {isTopUpPopupOpen && (<TopUpPopUp setIsTopUpPopupOpen={setIsTopUpPopupOpen} />)}
+   {isEditPopupOpen && (<EditPopUp id={selectedCategoryId} setIsEditPopupOpen={setIsEditPopupOpen} />)}
+    </>
   );
 
   // return (

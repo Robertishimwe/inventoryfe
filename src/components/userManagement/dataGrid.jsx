@@ -1,13 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import { useQuery } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 import { usersAtom } from "../../utils/atoms"; 
 import ReusableTable from '../ReusableTable';
 import api from "../../utils/api"; 
+import TopUpPopUp from "./topUp";
+import EditPopUp from "./editPopUp";
 
 function UserManagement() {
     const [users, setUsers] = useAtom(usersAtom);
+    const [isTopUpPopupOpen, setIsTopUpPopupOpen] = useState(false);
+    const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
+    const [selectedUser, setSelectedUser] = useState(null);
     const navigate = useNavigate();
 
     const { isLoading, isError, data, error } = useQuery({
@@ -34,8 +39,21 @@ function UserManagement() {
         navigate('/dashboard/users/addNew');
     };
 
+    const handleTopUpClick = () => {    
+        setIsTopUpPopupOpen(true);
+      };
+
     const handleEdit = (row) => {
-        navigate(`/dashboard/users/edit/${row.id}`);
+        // navigate(`/dashboard/users/edit/${row.id}`);
+        setSelectedUser({
+            "id":row.id,
+            "firstName":row.firstName,
+            "lastName":row.lastName,
+            "phone":row.phone,
+            "email":row.email,
+            "role":row.role
+        });    
+        setIsEditPopupOpen(true);
     };
   
     const handleDelete = (row) => {
@@ -52,18 +70,23 @@ function UserManagement() {
       ];
 
     return (
-        <ReusableTable
-            columnMapping={columnMapping}
-            data={users}
-            title="User Management"
-            searchPlaceholder="Search..."
-            onAdd={handleAdd}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            itemsPerPageOptions={[10, 25, 50, 100]}
-            showAddButton={true}
-            showSearchInput={true}
-        />
+        <>
+            <ReusableTable
+                columnMapping={columnMapping}
+                data={users}
+                title="User Management"
+                searchPlaceholder="Search..."
+                onAdd={handleAdd}
+                onTopup={handleTopUpClick}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                itemsPerPageOptions={[10, 25, 50, 100]}
+                showAddButton={true}
+                showSearchInput={true}
+            />
+            {isTopUpPopupOpen && (<TopUpPopUp setIsTopUpPopupOpen={setIsTopUpPopupOpen} />)}            
+            {isEditPopupOpen && (<EditPopUp user={selectedUser} setIsEditPopupOpen={setIsEditPopupOpen} />)}
+        </>
     );
 }
 

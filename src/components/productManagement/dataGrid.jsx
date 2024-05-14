@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useNavigate } from "react-router-dom"
@@ -7,9 +7,14 @@ import { useAtom } from 'jotai';
 import { productsAtom } from "../../utils/atoms";
 import api from "../../utils/api";
 import ReusableTable from '../ReusableTable';
+import TopUpPopUp from "./topUp";
+import EditPopUp from "./editPopUp";
 
 function DataGrid() {
   const [products, setProducts] = useAtom(productsAtom);
+  const [isTopUpPopupOpen, setIsTopUpPopupOpen] = useState(false);
+  const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState(null);
   const navigate = useNavigate();
 
   const { isLoading, isError, data, error } = useQuery({
@@ -39,8 +44,14 @@ function DataGrid() {
     navigate('/dashboard/products/addNew');
 };
 
+const handleTopUpClick = () => {    
+  setIsTopUpPopupOpen(true);
+};
+
 const handleEdit = (row) => {
-    navigate(`/dashboard/products/edit/${row.id}`);
+    // navigate(`/dashboard/products/edit/${row.id}`);
+        setSelectedProductId(row.id);    
+        setIsEditPopupOpen(true);
 };
 
 const handleDelete = (row) => {
@@ -75,26 +86,31 @@ const columnMapping = [
 
   
   return (
-    <ReusableTable
-        columnMapping={columnMapping}
-        data={products}
-        title="Product Management"
-        searchPlaceholder="Search..."
-        onAdd={handleAdd}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-        itemsPerPageOptions={[10, 25, 50, 100]}
-        showAddButton={true}
-        showSearchInput={true}
-        // additionalButtons={[
-        //     <Button key="import-btn" variant="ghost">
-        //         Import
-        //     </Button>,
-        //     <Button key="export-btn" variant="ghost">
-        //         Export
-        //     </Button>,
-        // ]}
-    />
+    <>
+      <ReusableTable
+          columnMapping={columnMapping}
+          data={products}
+          title="Product Management"
+          searchPlaceholder="Search..."
+          onAdd={handleAdd}
+          onTopup={handleTopUpClick}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          itemsPerPageOptions={[10, 25, 50, 100]}
+          showAddButton={true}
+          showSearchInput={true}
+          // additionalButtons={[
+          //     <Button key="import-btn" variant="ghost">
+          //         Import
+          //     </Button>,
+          //     <Button key="export-btn" variant="ghost">
+          //         Export
+          //     </Button>,
+          // ]}
+      />
+      {isTopUpPopupOpen && (<TopUpPopUp setIsTopUpPopupOpen={setIsTopUpPopupOpen} />)}
+      {isEditPopupOpen && (<EditPopUp id={selectedProductId} setIsEditPopupOpen={setIsEditPopupOpen} />)}
+    </>
 );
 
 }
