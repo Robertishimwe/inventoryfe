@@ -12,7 +12,7 @@ function UserManagement() {
     const [users, setUsers] = useAtom(usersAtom);
     const [isTopUpPopupOpen, setIsTopUpPopupOpen] = useState(false);
     const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
-    const [selectedUserId, setSelectedUserId] = useState(null);
+    const [selectedUser, setSelectedUser] = useState(null);
     const navigate = useNavigate();
 
     const { isLoading, isError, data, error } = useQuery({
@@ -45,7 +45,14 @@ function UserManagement() {
 
     const handleEdit = (row) => {
         // navigate(`/dashboard/users/edit/${row.id}`);
-        setSelectedUserId(row.id);    
+        setSelectedUser({
+            "id":row.id,
+            "firstName":row.firstName,
+            "lastName":row.lastName,
+            "phone":row.phone,
+            "email":row.email,
+            "role":row.role
+        });    
         setIsEditPopupOpen(true);
     };
   
@@ -78,7 +85,7 @@ function UserManagement() {
                 showSearchInput={true}
             />
             {isTopUpPopupOpen && (<TopUpPopUp setIsTopUpPopupOpen={setIsTopUpPopupOpen} />)}            
-            {isEditPopupOpen && (<EditPopUp id={selectedUserId} setIsEditPopupOpen={setIsEditPopupOpen} />)}
+            {isEditPopupOpen && (<EditPopUp user={selectedUser} setIsEditPopupOpen={setIsEditPopupOpen} />)}
         </>
     );
 }

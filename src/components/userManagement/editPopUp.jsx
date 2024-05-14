@@ -9,18 +9,18 @@ import { categoriesAtom, suppliersAtom, unitsAtom } from "../../utils/atoms";
 import api from "../../utils/api";
 import toast from 'react-hot-toast';
 
-function EditPopUp({ id, setIsEditPopupOpen }) {
+function EditPopUp({ user, setIsEditPopupOpen }) {
   const [suppliers, setUsers] = useAtom(suppliersAtom);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isSending, setIsSending] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [role, setRole] = useState("");
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [lastName, setLastName] = useState(user.lastName);
+  const [email, setEmail] = useState(user.email);
+  const [phone, setPhone] = useState(`0${user.phone}`);
+  const [role, setRole] = useState(user.role);
   // const [password, setPassword] = useState("");
   const [fetchedUser, setFetchedUser] = useState({});
 
@@ -28,8 +28,8 @@ function EditPopUp({ id, setIsEditPopupOpen }) {
     const fetchData = async () => {
       try {
         setIsLoading(false);
-        const response = await api.get(`/api/user/${id}`);
-        // console.log(response.data.firstName);
+        // console.log('**-/*-**'+user.id);
+        const response = await api.get(`/api/user/${user.id}`);
         setFetchedUser(response.data)        
         return response?.data;
       } catch (error) {
@@ -52,7 +52,7 @@ function EditPopUp({ id, setIsEditPopupOpen }) {
 
   const { mutate: editUser } = useMutation({
     mutationFn: async () => {
-      const response = await api.patch(`/api/User/${id}/update`, {
+      const response = await api.patch(`/api/User/${user.id}/update`, {
         firstName: firstName,
         lastName: lastName,
         email: email,
@@ -71,10 +71,11 @@ function EditPopUp({ id, setIsEditPopupOpen }) {
       setEmail("");
       setPhone("");
       setRole("");
-      setPassword("");
+      // setPassword("");
       setIsLoading(false);
     },
     onError: (error) => {
+      console.log(error)
       toast.error(`${error?.response?.data?.error}`, {
         duration: 9000,
         position: 'top-center'});
@@ -102,7 +103,7 @@ function EditPopUp({ id, setIsEditPopupOpen }) {
 
 
   /// to be deleted
-  console.log("+++++",fetchedUser)
+  // console.log("+++++",fetchedUser)
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded shadow-lg z-50 relative w-1/3">
