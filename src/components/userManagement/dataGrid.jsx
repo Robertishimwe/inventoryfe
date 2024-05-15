@@ -45,7 +45,13 @@ function UserManagement() {
 
     const handleEdit = (row) => {
         // navigate(`/dashboard/users/edit/${row.id}`);
-        setSelectedUserId(row.id);    
+        // console.log(row.id)
+        setSelectedUserId({
+            "id":row.id,
+            "firstName":row.firstName,
+            "lastName":row.lastName,
+            "role":row.role
+        });    
         setIsEditPopupOpen(true);
     };
   
@@ -78,7 +84,7 @@ function UserManagement() {
                 showSearchInput={true}
             />
             {isTopUpPopupOpen && (<TopUpPopUp setIsTopUpPopupOpen={setIsTopUpPopupOpen} />)}            
-            {isEditPopupOpen && (<EditPopUp id={selectedUserId} setIsEditPopupOpen={setIsEditPopupOpen} />)}
+            {isEditPopupOpen && (<EditPopUp user={selectedUserId} setIsEditPopupOpen={setIsEditPopupOpen} />)}
         </>
     );
 }

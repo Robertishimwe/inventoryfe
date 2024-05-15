@@ -9,7 +9,7 @@ import { categoriesAtom, suppliersAtom, unitsAtom } from "../../utils/atoms";
 import api from "../../utils/api";
 import toast from 'react-hot-toast';
 
-function EditPopUp({ id, setIsEditPopupOpen }) {
+function EditPopUp({ user, setIsEditPopupOpen }) {
   const [suppliers, setUsers] = useAtom(suppliersAtom);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -28,6 +28,7 @@ function EditPopUp({ id, setIsEditPopupOpen }) {
     const fetchData = async () => {
       try {
         setIsLoading(false);
+        console.log('********'+user)
         const response = await api.get(`/api/user/${id}`);
         // console.log(response.data.firstName);
         setFetchedUser(response.data)        
