@@ -9,18 +9,18 @@ import { categoriesAtom, suppliersAtom, unitsAtom } from "../../utils/atoms";
 import api from "../../utils/api";
 import toast from 'react-hot-toast';
 
-function EditPopUp({ id, setIsEditPopupOpen }) {
+function EditPopUp({ product, setIsEditPopupOpen }) {
   // const [suppliers, setProducts] = useAtom(suppliersAtom);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isSending, setIsSending] = useState(false);
-  const [productName, setProductName] = useState("");
-  const [description, setDescription] = useState("");
-  const [categoryId, setCategoryId] = useState("");
-  const [supplierId, setSupplierId] = useState("");
-  const [unitId, setUnitId] = useState("");
+  const [productName, setProductName] = useState(product.productName);
+  const [description, setDescription] = useState(product.description);
+  const [categoryId, setCategoryId] = useState(product.category);
+  const [supplierId, setSupplierId] = useState(product.supplier);
+  const [unitId, setUnitId] = useState(product.unit);
   // const [price, setPrice] = useState("");
   const [categories, setCategories] = useAtom(categoriesAtom);
   const [suppliers, setSuppliers] = useAtom(suppliersAtom);
@@ -41,7 +41,7 @@ function EditPopUp({ id, setIsEditPopupOpen }) {
 
   const { mutate: editProduct } = useMutation({
     mutationFn: async () => {
-      const response = await api.patch(`/api/product/update/${id}`, {
+      const response = await api.patch(`/api/product/update/${product.id}`, {
         product_name: productName,
         description: description,
         category: categoryId,
@@ -60,7 +60,7 @@ function EditPopUp({ id, setIsEditPopupOpen }) {
       setCategoryId("");
       setSupplierId("");
       setUnitId("");
-      setPrice("");
+      // setPrice("");
       setIsLoading(false);
     },
     onError: (error) => {

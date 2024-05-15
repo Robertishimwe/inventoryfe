@@ -12,7 +12,7 @@ function SupplierDataGrid() {
     const [suppliers, setSuppliers] = useAtom(suppliersAtom);
     const [isTopUpPopupOpen, setIsTopUpPopupOpen] = useState(false);
     const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
-    const [selectedSupplierId, setSelectedSupplierId] = useState(null);
+    const [selectedSupplier, setSelectedSupplier] = useState(null);
     const navigate = useNavigate();
 
     const { isLoading, isError, data, error } = useQuery({
@@ -45,7 +45,11 @@ function SupplierDataGrid() {
 
     const handleEdit = (row) => {
         // navigate(`/dashboard/supplier/edit/${row.id}`);
-        setSelectedSupplierId(row.id);    
+        setSelectedSupplier({
+            "id":row.id,
+            "supplierName":row.supplierName,
+            "contact":row.contact
+        });    
         setIsEditPopupOpen(true);
     };
   
@@ -95,7 +99,7 @@ function SupplierDataGrid() {
                 // ]}
             />
             {isTopUpPopupOpen && (<TopUpPopUp setIsTopUpPopupOpen={setIsTopUpPopupOpen} />)}
-            {isEditPopupOpen && (<EditPopUp id={selectedSupplierId} setIsEditPopupOpen={setIsEditPopupOpen} />)}
+            {isEditPopupOpen && (<EditPopUp supplier={selectedSupplier} setIsEditPopupOpen={setIsEditPopupOpen} />)}
         </>
     );
 }
