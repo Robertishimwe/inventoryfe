@@ -14,7 +14,7 @@ function DataGrid() {
   const [products, setProducts] = useAtom(productsAtom);
   const [isTopUpPopupOpen, setIsTopUpPopupOpen] = useState(false);
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
-  const [selectedProductId, setSelectedProductId] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const navigate = useNavigate();
 
   const { isLoading, isError, data, error } = useQuery({
@@ -50,7 +50,14 @@ const handleTopUpClick = () => {
 
 const handleEdit = (row) => {
     // navigate(`/dashboard/products/edit/${row.id}`);
-        setSelectedProductId(row.id);    
+        setSelectedProduct({
+          "id":row.id,
+          "productName":row.ProductName,
+          "description":row.Description,
+          "category":row.Category,
+          "supplier":row.Supplier,
+          "unit":row.Unit
+        });    
         setIsEditPopupOpen(true);
 };
 
@@ -109,7 +116,7 @@ const columnMapping = [
           // ]}
       />
       {isTopUpPopupOpen && (<TopUpPopUp setIsTopUpPopupOpen={setIsTopUpPopupOpen} />)}
-      {isEditPopupOpen && (<EditPopUp id={selectedProductId} setIsEditPopupOpen={setIsEditPopupOpen} />)}
+      {isEditPopupOpen && (<EditPopUp product={selectedProduct} setIsEditPopupOpen={setIsEditPopupOpen} />)}
     </>
 );
 

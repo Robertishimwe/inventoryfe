@@ -9,15 +9,15 @@ import { categoriesAtom, suppliersAtom, unitsAtom } from "../../utils/atoms";
 import api from "../../utils/api";
 import toast from 'react-hot-toast';
 
-function EditPopUp({ id, setIsEditPopupOpen }) {
+function EditPopUp({ supplier, setIsEditPopupOpen }) {
   const [suppliers, setSuppliers] = useAtom(suppliersAtom);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null);
   const [selectedSupplier, setSelectedSupplier] = useState(null);
   const [isSending, setIsSending] = useState(false);
-  const [supplierName, setSupplierName] = useState("");
-  const [contact, setContact] = useState("");
+  const [supplierName, setSupplierName] = useState(supplier.supplierName);
+  const [contact, setContact] = useState(supplier.contact);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,7 +43,7 @@ function EditPopUp({ id, setIsEditPopupOpen }) {
 
   const { mutate: editSupplier } = useMutation({
     mutationFn: async () => {
-      const response = await api.patch(`/api/Supplier/${id}/update`, {
+      const response = await api.patch(`/api/Supplier/${supplier.id}/update`, {
         supplierName: supplierName,
         contact: contact
       });

@@ -20,7 +20,7 @@ function DataGrid() {
   const navigate = useNavigate();
   const [isTopUpPopupOpen, setIsTopUpPopupOpen] = useState(false);
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
-  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ['categories'],
@@ -55,7 +55,10 @@ const handleTopUpClick = () => {
 
 const handleEdit = (row) => {
     // navigate(`/categories/edit/${row.id}`);
-    setSelectedCategoryId(row.id);    
+    setSelectedCategory({
+      "id":row.id,
+      "categoryName":row.name
+    });    
     setIsEditPopupOpen(true);
 };
 
@@ -89,7 +92,7 @@ if (data) {
         showSearchInput={true}
     />
    {isTopUpPopupOpen && (<TopUpPopUp setIsTopUpPopupOpen={setIsTopUpPopupOpen} />)}
-   {isEditPopupOpen && (<EditPopUp id={selectedCategoryId} setIsEditPopupOpen={setIsEditPopupOpen} />)}
+   {isEditPopupOpen && (<EditPopUp category={selectedCategory} setIsEditPopupOpen={setIsEditPopupOpen} />)}
     </>
   );
 

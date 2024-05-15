@@ -15,7 +15,7 @@ function DataGrid() {
   const [units, setUnits] = useAtom(unitsAtom);
   const [isTopUpPopupOpen, setIsTopUpPopupOpen] = useState(false);
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
-  const [selectedUnitId, setSelectedUnitId] = useState(null);
+  const [selectedUnit, setSelectedUnit] = useState(null);
   const navigate = useNavigate();
 
   const { isLoading, isError, data, error } = useQuery({
@@ -45,7 +45,10 @@ const handleTopUpClick = () => {
 const handleEdit = (row) => {
     // navigate(`/units/edit/${row.id}`);
     // navigate(`/dashboard/units/editUnit/${row.id}`);
-    setSelectedUnitId(row.id);    
+    setSelectedUnit({
+      "id":row.id,
+      "unitName":row.unit_name
+    });    
     setIsEditPopupOpen(true);
 };
 
@@ -83,7 +86,7 @@ return (
         showSearchInput={true}
     />
      {isTopUpPopupOpen && (<TopUpPopUp setIsTopUpPopupOpen={setIsTopUpPopupOpen} />)}
-     {isEditPopupOpen && (<EditPopUp id={selectedUnitId} setIsEditPopupOpen={setIsEditPopupOpen} />)}
+     {isEditPopupOpen && (<EditPopUp unit={selectedUnit} setIsEditPopupOpen={setIsEditPopupOpen} />)}
   </>
 );
   // return (
