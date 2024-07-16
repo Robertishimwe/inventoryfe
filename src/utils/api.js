@@ -8,6 +8,6 @@ if (localStorage.loggedinUser) {
 }
 
 export default axios.create({
-  baseURL: "https://inventory.zeabur.app",
+  baseURL: "https://hardwarems.onrender.com",
   headers,
 });
