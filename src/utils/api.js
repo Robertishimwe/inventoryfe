@@ -8,6 +8,6 @@ if (localStorage.loggedinUser) {
 }
 
 export default axios.create({
-  baseURL: "https://hardware.cyclic.app",
+  baseURL: "https://hardwarems.onrender.com",
   headers,
 });
