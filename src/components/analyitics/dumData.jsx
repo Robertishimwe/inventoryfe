@@ -164,12 +164,12 @@ export default function Component() {
             </Card>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-                <CardTitle className="text-sm font-medium">Active Now</CardTitle>
+                <CardTitle className="text-sm font-medium">Total sales</CardTitle>
                 <ActivityIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">+573</div>
-                <p className="text-xs text-gray-500 dark:text-gray-400">+201 since last hour</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">As of today</p>
               </CardContent>
             </Card>
           </div>
