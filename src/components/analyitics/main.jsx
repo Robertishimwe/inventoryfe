@@ -12,6 +12,7 @@ import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@
 
 import MostSellingProduct from "./mostSellingProduct"
 import ToDayTotalSales from "./toDayTotalSales"
+import ThisMonthTotalSales from "./thisMonthTotalSales"
 
 
 
@@ -50,16 +51,8 @@ export default function Component() {
               <p className="text-xs text-gray-500 dark:text-gray-400">+20.1% from last month</p>
             </CardContent>
           </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-              <CardTitle className="text-sm font-medium">Subscriptions</CardTitle>
-              <UsersIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">+2350</div>
-              <p className="text-xs text-gray-500 dark:text-gray-400">+180.1% from last month</p>
-            </CardContent>
-          </Card>
+          <ThisMonthTotalSales/>
+          
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
               <CardTitle className="text-sm font-medium">Sales</CardTitle>
