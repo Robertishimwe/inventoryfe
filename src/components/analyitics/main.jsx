@@ -13,6 +13,7 @@ import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@
 import MostSellingProduct from "./mostSellingProduct"
 import ToDayTotalSales from "./toDayTotalSales"
 import ThisMonthTotalSales from "./thisMonthTotalSales"
+import ThisMonthTotalPurchases from "./thisMonthTotalPurchases"
 
 
 
@@ -41,7 +42,8 @@ export default function Component() {
       <ScrollArea className="h-1/2 w-full">
 {/* <img src={background} alt="rrr" srcset="" /> */}
         <div className="grid gap-4 md:grid-cols-2">
-          <Card>
+          <ThisMonthTotalPurchases/>
+          {/* <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
               <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
               <DollarSignIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
@@ -50,7 +52,7 @@ export default function Component() {
               <div className="text-2xl font-bold">$45,231.89</div>
               <p className="text-xs text-gray-500 dark:text-gray-400">+20.1% from last month</p>
             </CardContent>
-          </Card>
+          </Card> */}
           <ThisMonthTotalSales/>
           
           <Card>

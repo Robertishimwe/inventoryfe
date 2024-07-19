@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import api from "../../utils/api";
 
-function ThisMonthTotalSales() {
+function ThisMonthTotalPurchases() {
   let today = new Date();
   let firstDayOfNextMonth = new Date(
     today.getFullYear(),
@@ -23,7 +23,7 @@ function ThisMonthTotalSales() {
   let endDate = firstDayOfNextMonth.toISOString().split("T")[0];
 
   const { isLoading, isError, data, error } = useQuery({
-    queryKey: ["ThisMonthTotalSales"],
+    queryKey: ["ThisMonthTotalPurchase"],
     queryFn: async () => {
       const response = await api.get(
         `/api/dashboard/getPurchasesByDate?startDate=${startDate}&endDate=${endDate}`
@@ -35,7 +35,7 @@ function ThisMonthTotalSales() {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-        <CardTitle className="text-sm font-medium">Total Sales</CardTitle>
+        <CardTitle className="text-sm font-medium">Total Purchases</CardTitle>
         <DollarSignIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
       </CardHeader>
       <CardContent>
@@ -43,7 +43,7 @@ function ThisMonthTotalSales() {
           {data ? data : "No data to show"} RFW
         </div>
         <p className="text-xs text-gray-500 dark:text-gray-400">
-          Monthly Sales Total
+          Monthly Purchases
         </p>
       </CardContent>
     </Card>
@@ -73,4 +73,4 @@ function DollarSignIcon(props) {
   )
 }
 
-export default ThisMonthTotalSales;
+export default ThisMonthTotalPurchases;
