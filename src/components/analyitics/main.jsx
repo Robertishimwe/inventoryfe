@@ -12,6 +12,7 @@ import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@
 
 import MostSellingProduct from "./mostSellingProduct"
 import ToDayTotalSales from "./toDayTotalSales"
+import ThisMonthProfite from "./thisMonthRevenue"
 import ThisMonthTotalSales from "./thisMonthTotalSales"
 import ThisMonthTotalPurchases from "./thisMonthTotalPurchases"
 
@@ -24,57 +25,22 @@ export default function Component() {
 
       <h1 className="font-semibold text-lg md:text-xl">Analyitics</h1>
 
-
-
-      {/* <div className="ml-auto flex items-center gap-2">
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button className="w-[200px] justify-start text-left font-normal" id="date" variant="outline">
-              <CalendarClockIcon className="mr-2 h-4 w-4" />
-              June 01, 2023 - June 30, 2023
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent align="end" className="w-auto p-0">
-            <Calendar initialFocus mode="range" numberOfMonths={2} />
-          </PopoverContent>
-        </Popover>
-      </div> */}
       <ScrollArea className="h-1/2 w-full">
 {/* <img src={background} alt="rrr" srcset="" /> */}
         <div className="grid gap-4 md:grid-cols-2">
           <ThisMonthTotalPurchases/>
-          {/* <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-              <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-              <DollarSignIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">$45,231.89</div>
-              <p className="text-xs text-gray-500 dark:text-gray-400">+20.1% from last month</p>
-            </CardContent>
-          </Card> */}
+      
           <ThisMonthTotalSales/>
-          
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-              <CardTitle className="text-sm font-medium">Sales</CardTitle>
-              <CreditCardIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">+12,234</div>
-              <p className="text-xs text-gray-500 dark:text-gray-400">+19% from last month</p>
-            </CardContent>
-          </Card>
+      
+          <ThisMonthProfite/>
+
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
               <CardTitle className="text-sm font-medium">Sales</CardTitle>
               <ActivityIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
             </CardHeader>
             <ToDayTotalSales/>
-            {/* <CardContent>
-              <div className="text-2xl font-bold"> 573 RFW</div>
-              <p className="text-xs text-gray-500 dark:text-gray-400"> For today </p>
-            </CardContent> */}
+           
           </Card>
         </div>
 
@@ -123,15 +89,6 @@ export default function Component() {
                     <CurvedlineChart className="aspect-[2/1]" />
                   </CardContent>
                 </Card>
-                {/* <Card>
-                  <CardHeader>
-                    <CardDescription>Inventory Levels</CardDescription>
-                    <CardTitle>Low</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <BarChart className="aspect-[2/1]" />
-                  </CardContent>
-                </Card> */}
                 <MostSellingProduct/>
                 <Card>
                   <CardHeader>
@@ -143,16 +100,16 @@ export default function Component() {
                   </CardContent>
                 </Card>
               </div>
-              <h2 className="font-semibold text-lg md:text-xl">Orders</h2>
+              <h2 className="font-semibold text-lg md:text-xl">Low Stock</h2>
               <div className="border shadow-sm rounded-lg">
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Order ID</TableHead>
-                      <TableHead>Customer</TableHead>
-                      <TableHead>Date</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead className="text-right">Total</TableHead>
+                      <TableHead>Poduct Name</TableHead>
+                      <TableHead>Minimum Stock</TableHead>
+                      <TableHead>Available stock</TableHead>
+                      <TableHead>Units</TableHead>
+                      <TableHead className="text-right">Price</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
