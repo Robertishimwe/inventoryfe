@@ -48,10 +48,10 @@ function LowStock() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Low Stock Report</CardTitle>
-        <CardDescription>
+        {/* <CardTitle>Low Stock Report</CardTitle> */}
+        {/* <CardDescription>
           Current low stock items
-        </CardDescription>
+        </CardDescription> */}
       </CardHeader>
       <CardContent>
         <Table>
