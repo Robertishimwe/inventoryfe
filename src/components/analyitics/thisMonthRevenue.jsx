@@ -51,8 +51,6 @@ function ThisMonthProfite() {
 }
 
 
-
-
 function DollarSignIcon(props) {
   return (
     <svg

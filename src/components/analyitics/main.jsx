@@ -71,7 +71,7 @@ export default function Component() {
             <div className="flex items-center gap-4">
             </div>
             <div className="grid gap-6">
-              <div className="grid md:grid-cols-3 gap-6">
+              {/* <div className="grid md:grid-cols-3 gap-6">
                 <Card>
                   <CardHeader>
                     <CardDescription>Daily Sales</CardDescription>
@@ -91,7 +91,7 @@ export default function Component() {
                     <CurvedlineChart className="aspect-[2/1]" />
                   </CardContent>
                 </Card>
-              </div>
+              </div> */}
               <h2 className="font-semibold text-lg md:text-xl">Low Stock</h2>
               <div className="border shadow-sm rounded-lg">
                 <LowStock />

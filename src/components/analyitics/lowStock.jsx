@@ -61,6 +61,7 @@ function LowStock() {
               <TableHead>Minimum Stock</TableHead>
               <TableHead>Available Stock</TableHead>
               <TableHead>Units</TableHead>
+              <TableHead>Selling Price</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -70,6 +71,7 @@ function LowStock() {
                 <TableCell>{item.minimumStockLevel}</TableCell>
                 <TableCell>{item.currentStock}</TableCell>
                 <TableCell>{item.unit}</TableCell>
+                <TableCell>{item.price}</TableCell>
               </TableRow>
             ))}
           </TableBody>
