@@ -24,6 +24,7 @@ import Analyitics from "./components/analyitics/main";
 
 import PrivateRoutes from "./protection/PrivateRoutes";
 import BounceRoute from "./protection/bounceRoute";
+import SalesReport from "./components/analyitics/salesReport";
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
           <Route path="suppliers/addNew" element={<NewSupplier />} />
           <Route path="suppliers/editSupplier/:id" element={<EditSupplier />} />
           <Route path="transactions" element={<TransactionDataGrid />} />
+          <Route path="report/sales" element={<SalesReport/>}/>
         </Route>
       </Route>
       <Route element={ <BounceRoute /> }>

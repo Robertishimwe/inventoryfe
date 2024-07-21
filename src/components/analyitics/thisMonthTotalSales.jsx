@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   CardDescription,
@@ -43,7 +44,7 @@ function ThisMonthTotalSales() {
           {data ? data : "No data to show"} RFW
         </div>
         <p className="text-xs text-gray-500 dark:text-gray-400">
-          Monthly Sales Total
+          Monthly Sales Total <Link to="report/sales">[Full report]</Link>
         </p>
       </CardContent>
     </Card>
