@@ -63,15 +63,17 @@ function SalesReport() {
           <Button onClick={handleFetchReport}>Generate Report</Button>
         </div>
       ) : (
-        <div className="mb-8 text-right print:hidden">
+        <div className="mb-8 overflow-x-auto text-right print:hidden">
           <Button onClick={() => setShowDatePicker(true)}>Change Dates</Button>
           <Button onClick={handlePrint} className="ml-4">Print Report</Button>
         </div>
       )}
       
       {(isLoading || isError || data) && (
-        <Card className="border shadow-lg print:shadow-none">
-          <CardContent className="p-6" ref={reportRef}>
+        // <Card className="border shadow-lg print:shadow-none">
+        <Card className="w-full min-h-full border shadow-lg print:shadow-none">
+
+          <CardContent className="h-full p-4" ref={reportRef}>
             <h1 className="text-3xl font-bold text-center mb-2">Inventory Management System - Sales Report</h1>
             <p className="text-center mb-6 text-gray-600">
               {startDate} TILL DATE {endDate}
@@ -105,11 +107,11 @@ function SalesReport() {
                 <TableFooter>
                   <TableRow className="border-t-2 border-black">
                     <TableCell colSpan={5} className="text-right font-bold">GRAND TOTAL</TableCell>
-                    <TableCell className="text-right font-bold">$ {totalSalesAmount.toFixed(2)}</TableCell>
+                    <TableCell className="text-right font-bold"> {totalSalesAmount.toFixed(2)}Rfw</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell colSpan={5} className="text-right font-bold">PROFIT</TableCell>
-                    <TableCell className="text-right font-bold">$ {calculateProfit().toFixed(2)}</TableCell>
+                    <TableCell className="text-right font-bold"> {calculateProfit().toFixed(2)} Rfw</TableCell>
                   </TableRow>
                 </TableFooter>
               </Table>
