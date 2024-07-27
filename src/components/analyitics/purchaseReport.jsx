@@ -16,7 +16,7 @@ function PurchasesReport() {
   const { isLoading, isError, data, error, refetch } = useQuery({
     queryKey: ['purchasesReport', startDate, endDate],
     queryFn: async () => {
-      const response = await api.get(`https://hardwarems.onrender.com/api/report/purchases?startDate=${startDate}&endDate=${endDate}`);
+      const response = await api.get(`/api/report/purchases?startDate=${startDate}&endDate=${endDate}`);
       return response.data;
     },
     enabled: false,
