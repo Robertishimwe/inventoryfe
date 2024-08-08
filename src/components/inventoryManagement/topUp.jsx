@@ -138,6 +138,7 @@ function TopUpPopUp({ setIsTopUpPopupOpen, selectedInventory }) {
               id="quantity"
               ref={quantityRef}
               className="border border-gray-300 p-2 w-full rounded"
+              required
             />
           </div>
 
@@ -153,6 +154,7 @@ function TopUpPopUp({ setIsTopUpPopupOpen, selectedInventory }) {
                 id="buyingPrice"
                 ref={buyingPriceRef}
                 className="w-full appearance-none outline-none"
+                required
               />
               <span className="ml-2">RWF</span>
             </div>
@@ -170,6 +172,7 @@ function TopUpPopUp({ setIsTopUpPopupOpen, selectedInventory }) {
                 id="sellingPrice"
                 ref={sellingPriceRef}
                 className="w-full appearance-none outline-none"
+                required
               />
               <span className="ml-2">RWF</span>
             </div>
