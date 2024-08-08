@@ -72,6 +72,14 @@ function Cart() {
     });
   };
 
+  const handlePriceChange = (index, newPrice) => {
+    setCart((prevCart) => {
+      const updatedCart = [...prevCart];
+      updatedCart[index].price = newPrice;
+      return updatedCart;
+    });
+  };
+
   return (
     <>
       <div>
@@ -101,7 +109,15 @@ function Cart() {
                     onChange={(e) => handleQuantityChange(index, e.target.value)}
                   />
                 </TableCell>
-                <TableCell>{item.price}</TableCell>
+                <TableCell>
+                  <Input
+                    type="number"
+                    min={0}
+                    value={item.price}
+                    onChange={(e) => handlePriceChange(index, e.target.value)}
+                  />  
+                </TableCell>
+                {/* <TableCell>{item.price}</TableCell> */}
                 <TableCell>{Number(item.price) * item.quantity} Frw</TableCell>
                 <TableCell>
                   <Button variant="destructive" size="icon" onClick={() => handleRemoveProduct(index)}>
