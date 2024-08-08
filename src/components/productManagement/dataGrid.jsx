@@ -9,11 +9,13 @@ import api from "../../utils/api";
 import ReusableTable from '../ReusableTable';
 import TopUpPopUp from "./topUp";
 import EditPopUp from "./editPopUp";
+import DeletePopUp from "./deletePopUp";
 
 function DataGrid() {
   const [products, setProducts] = useAtom(productsAtom);
   const [isTopUpPopupOpen, setIsTopUpPopupOpen] = useState(false);
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -54,7 +56,14 @@ function DataGrid() {
   };
 
   const handleDelete = (row) => {
-    navigate(`/dashboard/products/delete/${row.id}`);
+
+    console.log(">>>>>>>>>>>>",row)
+    // navigate(`/dashboard/products/delete/${row.id}`);
+    setSelectedProduct({
+      "id":row.id,
+      "productName":row.ProductName
+    });    
+    setIsDeletePopupOpen(true);
   };
 
   const columnMapping = [
@@ -100,6 +109,7 @@ function DataGrid() {
       />
       {isTopUpPopupOpen && (<TopUpPopUp setIsTopUpPopupOpen={setIsTopUpPopupOpen} />)}
       {isEditPopupOpen && (<EditPopUp product={selectedProduct} setIsEditPopupOpen={setIsEditPopupOpen} />)}
+      {isDeletePopupOpen && (<DeletePopUp product={selectedProduct} setIsDeletePopupOpen={setIsDeletePopupOpen} />)}
     </>
   );
 }
