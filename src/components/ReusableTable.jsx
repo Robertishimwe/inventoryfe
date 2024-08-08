@@ -51,11 +51,11 @@ function ReusableTable({
           Edit
         </Button>
       )}
-      {/* {onDelete && (
+      {onDelete && (
         <Button variant="ghost" onClick={() => onDelete(item)}>
           Delete
         </Button>
-      )} */}
+      )}
     </div>
   );
 

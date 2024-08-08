@@ -9,6 +9,7 @@ import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@
 import ReusableTable from '../ReusableTable';
 import TopUpPopUp from "./topUp";
 import EditPopUp from "./editPopUp";
+import DeletePopUp from "./deletePopUp";
 import { useAtom } from 'jotai';
 import { categoriesAtom } from "../../utils/atoms";
 
@@ -20,6 +21,7 @@ function DataGrid() {
   const navigate = useNavigate();
   const [isTopUpPopupOpen, setIsTopUpPopupOpen] = useState(false);
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const { isLoading, isError, data, error } = useQuery({
@@ -63,7 +65,12 @@ const handleEdit = (row) => {
 };
 
 const handleDelete = (row) => {
-    navigate(`/categories/delete/${row.id}`);
+    // navigate(`/categories/delete/${row.id}`);
+    setSelectedCategory({
+      "id":row.id,
+      "categoryName":row.name
+    });    
+    setIsDeletePopupOpen(true);
 };
 
 if (data) {
@@ -93,6 +100,7 @@ if (data) {
     />
    {isTopUpPopupOpen && (<TopUpPopUp setIsTopUpPopupOpen={setIsTopUpPopupOpen} />)}
    {isEditPopupOpen && (<EditPopUp category={selectedCategory} setIsEditPopupOpen={setIsEditPopupOpen} />)}
+   {isDeletePopupOpen && (<DeletePopUp category={selectedCategory} setIsDeletePopupOpen={setIsDeletePopupOpen} />)}
     </>
   );
 
