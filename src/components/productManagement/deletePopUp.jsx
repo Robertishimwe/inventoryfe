@@ -120,7 +120,7 @@ const DeletePopup = ({ product, setIsDeletePopupOpen }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded shadow-lg z-50 relative w-1/3">
-        <h2 className="text-lg font-semibold mb-4 text-center">Delete Category</h2>
+        <h2 className="text-lg font-semibold mb-4 text-center">Delete Product</h2>
         <form onSubmit={handleDeleteFormSubmit}>
           <div className="mb-4">
             <label htmlFor="product" className="block mb-2 font-medium">

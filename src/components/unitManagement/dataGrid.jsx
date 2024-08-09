@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import ReusableTable from '../ReusableTable';
 import TopUpPopUp from "./topUp";
 import EditPopUp from "./editPopUp";
+import DeletePopUp from "./deletePopUp";
 import { useAtom } from 'jotai';
 import { unitsAtom } from "../../utils/atoms";
 import api from "../../utils/api";
@@ -12,6 +13,7 @@ function DataGrid() {
   const [units, setUnits] = useAtom(unitsAtom);
   const [isTopUpPopupOpen, setIsTopUpPopupOpen] = useState(false);
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [selectedUnit, setSelectedUnit] = useState(null);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -48,7 +50,12 @@ function DataGrid() {
   };
 
   const handleDelete = (row) => {
-    navigate(`/units/delete/${row.id}`);
+    
+    setSelectedUnit({
+      "id": row.id,
+      "unitName": row.unit_name
+    });    
+    setIsDeletePopupOpen(true);
   };
 
   const columnMapping = [
@@ -82,6 +89,7 @@ function DataGrid() {
       />
       {isTopUpPopupOpen && (<TopUpPopUp setIsTopUpPopupOpen={setIsTopUpPopupOpen} />)}
       {isEditPopupOpen && (<EditPopUp unit={selectedUnit} setIsEditPopupOpen={setIsEditPopupOpen} />)}
+      {isDeletePopupOpen && (<DeletePopUp unit={selectedUnit} setIsDeletePopupOpen={setIsDeletePopupOpen} />)}
     </>
   );
 }

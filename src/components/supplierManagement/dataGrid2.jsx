@@ -6,12 +6,14 @@ import { suppliersAtom } from "../../utils/atoms"; // Import the suppliers atom
 import api from "../../utils/api"; // Import the API utility
 import TopUpPopUp from "./topUp";
 import EditPopUp from "./editPopUp";
+import DeletePopUp from "./deletePopUp";
 import ReusableTable from '../ReusableTable';
 
 function SupplierDataGrid() {
     const [suppliers, setSuppliers] = useAtom(suppliersAtom);
     const [isTopUpPopupOpen, setIsTopUpPopupOpen] = useState(false);
     const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
+    const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
     const [selectedSupplier, setSelectedSupplier] = useState(null);
     const navigate = useNavigate();
 
@@ -54,7 +56,15 @@ function SupplierDataGrid() {
     };
   
     const handleDelete = (row) => {
-        navigate(`/supplier/delete/${row.id}`);
+        
+        setSelectedSupplier({
+            "id":row.id,
+            "supplierName":row.supplierName,
+            "contact":row.contact
+        });    
+        setIsDeletePopupOpen(true);
+
+        
     };
 
     const handleImport = () => {
@@ -100,6 +110,7 @@ function SupplierDataGrid() {
             />
             {isTopUpPopupOpen && (<TopUpPopUp setIsTopUpPopupOpen={setIsTopUpPopupOpen} />)}
             {isEditPopupOpen && (<EditPopUp supplier={selectedSupplier} setIsEditPopupOpen={setIsEditPopupOpen} />)}
+            {isDeletePopupOpen && (<DeletePopUp supplier={selectedSupplier} setIsDeletePopupOpen={setIsDeletePopupOpen} />)}
         </>
     );
 }
