@@ -14,9 +14,9 @@ const DeletePopup = ({ unit, setIsDeletePopupOpen }) => {
       return response.data;
     },
     onSuccess: () => {
-      toast.success(`"${unit.unitName}" category was deleted successfully`);
+      toast.success(`"${unit.unitName}" was deleted successfully`);
       // Refetch the unit data to update the data grid
-      queryClient.invalidateQueries(['products']);
+      queryClient.invalidateQueries(['units']);
       setIsDeletePopupOpen(false);
     },
     onError: (error) => {
