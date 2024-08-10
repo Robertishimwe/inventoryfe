@@ -8,6 +8,6 @@ if (localStorage.loggedinUser) {
 }
 
 export default axios.create({  
-  baseURL: "https://super-broccoli-4r9vj5jxp9727gpx-3002.app.github.dev",
+  baseURL: "http://localhost:3002",
   headers,
 });
