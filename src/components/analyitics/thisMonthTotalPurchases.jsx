@@ -41,7 +41,7 @@ function ThisMonthTotalPurchases() {
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold">
-          {data ? data : "No data to show"} RFW
+          {data ? data : "0"} RFW
         </div>
         <p className="text-xs text-gray-500 dark:text-gray-400">
           Monthly Purchases <Link to="report/purchases">[Full report]</Link>
