@@ -8,6 +8,6 @@ if (localStorage.loggedinUser) {
 }
 
 export default axios.create({  
-  baseURL: "http://localhost:3002",
+  baseURL: "https://hardwarems-3.onrender.com",
   headers,
 });
