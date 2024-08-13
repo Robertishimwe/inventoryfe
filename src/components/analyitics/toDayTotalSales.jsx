@@ -22,7 +22,7 @@ function ToDayTotalSales() {
 
   return (
     <CardContent>
-      <div className="text-2xl font-bold">{data? data: "No data to show"} RFW</div>
+      <div className="text-2xl font-bold">{data? data: "0"} RFW</div>
       <p className="text-xs text-gray-500 dark:text-gray-400">Daily Sales Total</p>
     </CardContent>
   );

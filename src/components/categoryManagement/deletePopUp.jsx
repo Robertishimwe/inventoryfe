@@ -3,7 +3,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
 import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom"
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from 'jotai';
 import { categoriesAtom, suppliersAtom, unitsAtom } from "../../utils/atoms";
 import api from "../../utils/api";
@@ -17,6 +17,7 @@ function DeletePopUp({ category, setIsDeletePopupOpen }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isSending, setIsSending] = useState(false);
   const [categoryName, setCategoryName] = useState(category.categoryName);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,6 +43,7 @@ function DeletePopUp({ category, setIsDeletePopupOpen }) {
     },
     onSuccess: () => {
       toast.success("Category deleted successfully");
+      queryClient.invalidateQueries(['categories']);
       setCategoryName("");
       setIsLoading(false);
     },

@@ -7,11 +7,13 @@ import ReusableTable from '../ReusableTable';
 import api from "../../utils/api"; 
 import TopUpPopUp from "./topUp";
 import EditPopUp from "./editPopUp";
+import DeletePopUp from "./deletePopUp";
 
 function UserManagement() {
     const [users, setUsers] = useAtom(usersAtom);
     const [isTopUpPopupOpen, setIsTopUpPopupOpen] = useState(false);
     const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
+    const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
     const navigate = useNavigate();
     const queryClient = useQueryClient();
@@ -51,7 +53,17 @@ function UserManagement() {
     };
   
     const handleDelete = (row) => {
-        navigate(`/dashboard/users/delete/${row.id}`);
+        
+
+        setSelectedUser({
+            "id": row.id,
+            "firstName": row.firstName,
+            "lastName": row.lastName,
+            "phone": row.phone,
+            "email": row.email,
+            "role": row.role
+        });    
+        setIsDeletePopupOpen(true);
     };
 
     const columnMapping = [
@@ -88,6 +100,7 @@ function UserManagement() {
             />
             {isTopUpPopupOpen && (<TopUpPopUp setIsTopUpPopupOpen={setIsTopUpPopupOpen} />)}            
             {isEditPopupOpen && (<EditPopUp user={selectedUser} setIsEditPopupOpen={setIsEditPopupOpen} />)}
+            {isDeletePopupOpen && (<DeletePopUp user={selectedUser} setIsDeletePopupOpen={setIsDeletePopupOpen} />)}
         </>
     );
 }

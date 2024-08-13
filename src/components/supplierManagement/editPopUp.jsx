@@ -3,7 +3,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
 import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom"
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from 'jotai';
 import { categoriesAtom, suppliersAtom, unitsAtom } from "../../utils/atoms";
 import api from "../../utils/api";
@@ -18,6 +18,7 @@ function EditPopUp({ supplier, setIsEditPopupOpen }) {
   const [isSending, setIsSending] = useState(false);
   const [supplierName, setSupplierName] = useState(supplier.supplierName);
   const [contact, setContact] = useState(supplier.contact);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,6 +54,7 @@ function EditPopUp({ supplier, setIsEditPopupOpen }) {
     },
     onSuccess: () => {
       toast.success("Supplier edited successfully");
+      queryClient.invalidateQueries(['suppliers']);
       setSupplierName("");
       setIsLoading(false);
     },

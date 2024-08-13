@@ -36,7 +36,7 @@ const GridExample = () => {
     return data.map(item => ({
       ID: item.id,
       Product: item.product?.product_name,
-      Price: parseFloat(item?.price),
+      Price: parseFloat(item.transaction_type == "IN" ? item?.price : item?.final_price),
       Quantity: parseFloat(item.quantity_sold),
       Transaction_Type: item.transaction_type,
       Done_By: `${item.user?.firstName} ${item.user?.lastName}`,

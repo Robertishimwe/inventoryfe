@@ -40,7 +40,7 @@ function ThisMonthProfite() {
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold">
-          {data ? data : "No data to show"} RFW
+          {data ? data : "0"} RFW
         </div>
         <p className="text-xs text-gray-500 dark:text-gray-400">
           Taxes are not dudacted
