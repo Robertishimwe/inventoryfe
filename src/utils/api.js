@@ -7,7 +7,7 @@ if (localStorage.loggedinUser) {
   headers.token = `${loggedinUser.token}`;
 }
 
-export default axios.create({  
-  baseURL: "https://laughing-space-bassoon-9x457r7pp9vc7xq4-3002.app.github.dev",
+export default axios.create({
+  baseURL: "https://supreme-giggle-4r9vj5q77wph757v-3002.app.github.dev",
   headers,
 });
