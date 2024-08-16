@@ -3,10 +3,10 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "main": "main.js",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "main": "main.js",
+    "build": "vite build",    
     "electron": "electron .",
     "package": "electron-packager .",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
