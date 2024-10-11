@@ -12,7 +12,8 @@ import api from "../../utils/api";
 function ThisMonthProfite() {
   let today = new Date();
   let firstDayOfNextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
-  let startDate = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().split("T")[0];
+  // let startDate = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().split("T")[0];
+  let startDate = new Date(Date.UTC(today.getFullYear(), today.getMonth(), 1)).toISOString().split("T")[0];
   let endDate = new Date(firstDayOfNextMonth.getTime() - 1).toISOString().split("T")[0];
 
   const { isLoading, isError, data, error } = useQuery({
