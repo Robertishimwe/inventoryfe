@@ -7,6 +7,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useAtom } from 'jotai';
 import { categoriesAtom, suppliersAtom, unitsAtom } from "../../utils/atoms";
 import api from "../../utils/api";
+import QrCodeGenerator from "../QrCodeGenerator";
 import toast from 'react-hot-toast';
 
 function TopUpPopUp({ setIsTopUpPopupOpen }) {
@@ -197,6 +198,8 @@ function TopUpPopUp({ setIsTopUpPopupOpen }) {
               type="text"
             /> */}
           </div>         
+
+          <QrCodeGenerator/>
 
           {/* Add form submit and cancel buttons */}
           <div className="flex justify-center">

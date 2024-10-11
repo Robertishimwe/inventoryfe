@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { useAtom } from "jotai";
 import { cartAtom, productsAtom } from "../../utils/atoms";
 import api from "../../utils/api";
+import Scanner from "@/components/Scanner";
 import Select from "react-select";
 
 function InputForm() {
@@ -133,6 +134,7 @@ function InputForm() {
           />
         </div>
       </div>
+      <Scanner/>
       <div className="flex justify-end mt-4 gap-4 px-8">
         <Button
           variant="outline"
